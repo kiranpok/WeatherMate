@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    //id("dagger.hilt.android.plugin") // Hilt plugin
-    id("com.google.devtools.ksp") version "1.9.0-1.0.13" // Use the latest KSP version
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13" // updated version
+
 }
 
 android {
@@ -57,24 +57,28 @@ android {
 }
 
 dependencies {
-    //val hiltVersion = "2.45" // Define Hilt version
-    val roomVersion = "2.6.1"
-    val navVersion = "2.8.2"
 
-    // Dagger - Hilt
-    //implementation("com.google.dagger:hilt-android:$hiltVersion") // Hilt Android Dependency
+    //Dagger - Hilt
+    implementation(libs.com.google.dagger.hilt.android)
 
-    //implementation(libs.androidx.hilt.lifecycle.viewmodel) // ViewModel integration with Hilt
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0") // Navigation Compose integration with Hilt
+    implementation(libs.androidx.hilt.lifecycle.viewmodel)
+// Dagger - Hilt
+    ksp(libs.com.google.dagger.hilt.android.compiler)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
+    //material icons - use with caution!
+    implementation(libs.androidx.material.icons.extended)
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.2")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     // Coroutine Lifecycle Scopes
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx.v240)
+    //lifecycle
+    implementation(libs.androidx.lifecycle.lifecycle.runtime.ktx.v240)
 
     // Coil
     implementation(libs.coil.compose)
@@ -86,14 +90,15 @@ dependencies {
     implementation(libs.okhttp)
 
     // JSON Converter
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.converter.gson)
 
-    // Room
-    implementation("androidx.room:room-runtime:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion") // Use KSP for Room compiler
-    implementation("androidx.room:room-ktx:$roomVersion")
+    //Room
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
 
-    implementation("androidx.navigation:navigation-compose:$navVersion")
+    // To use Kotlin annotation processing tool (ksp) MUST HAVE!
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
