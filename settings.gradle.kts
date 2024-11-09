@@ -10,7 +10,8 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-}
+
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -20,4 +21,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "WeatherMate"
-include(":app")
+include(":app")}
