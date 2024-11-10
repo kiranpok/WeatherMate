@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
 package com.example.weathermate
 
 
@@ -9,16 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.weathermate.navigation.WeatherNavigation
 import com.example.weathermate.ui.theme.WeatherMateTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +42,7 @@ fun WeatherMateApp() {
                 .systemBarsPadding()) {
             Column(verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("Welcome to WeatherMate! Current weather loading....")
+                WeatherNavigation()
             }
         }
     }
