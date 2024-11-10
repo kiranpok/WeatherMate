@@ -7,8 +7,6 @@ import com.example.weathermate.network.WeatherApi
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(private val api: WeatherApi) {
-
-
     suspend fun getWeather(cityQuery: String, units: String)
             : DataOrException<Weather, Boolean, Exception> {
         val response = try {
@@ -20,5 +18,6 @@ class WeatherRepository @Inject constructor(private val api: WeatherApi) {
         }
         Log.d("INSIDE", "getWeather: $response")
         return  DataOrException(data = response)
+    }
+}
 
-    }}

@@ -7,9 +7,10 @@ data class WeatherItem(
     val feels_like: FeelsLike,
     val gust: Double,
     val humidity: Int,
-    val pop: Double,
+    val pop: Double,  //change int to float
     val pressure: Int,
-    val rain: Double,
+    val rain: Float?, //double to float
+    val snow: Float?,
     val speed: Double,
     val sunrise: Int,
     val sunset: Int,
