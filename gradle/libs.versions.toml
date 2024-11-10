@@ -79,9 +79,11 @@ okhttp-v4100 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttpVe
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
 kapt = { id = "com.google.devtools.ksp", version = "1.9.0-1.0.13" }
 hilt-android = { id = "dagger.hilt.android.plugin", version.ref = "comGoogleDaggerHiltAndroid" }
 
