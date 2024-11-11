@@ -45,6 +45,11 @@ import com.example.weathermate.navigation.WeatherScreens
 
 // Custom AppBar for the application
 import android.widget.Toast
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -55,12 +60,15 @@ fun WeatherMateAppBar(
     isHomeScreen: Boolean = true,
     elevation: Dp = 0.dp,
     navController: NavController,
-    //favoriteViewModel: FavoriteViewModel = hiltViewModel(),
     onAddActionClicked: () -> Unit = {},
     onButtonClicked: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val showDialog = remember { mutableStateOf(false) }
+
+    if (showDialog.value) {
+        ShowSettingDropDownMenu(showDialogue = showDialog, navController = navController)
+    }
     val expanded = remember { mutableStateOf(false) }
 
 
@@ -124,4 +132,55 @@ fun WeatherMateAppBar(
 
         },   backgroundColor = Color(0xFF4C9EF1), // Set the background color to the specified color
         elevation = elevation)
+}
+
+// Dropdown menu for the Favorite, Settings, Alerts, and Feedback
+@Composable
+fun ShowSettingDropDownMenu(showDialogue: MutableState<Boolean>, navController: NavController) {
+    var expanded by remember {
+        mutableStateOf(true)
+    }
+    val items = listOf("Favorite", "Settings", "Alerts", "Feedback", )
+    Column (modifier = Modifier.fillMaxWidth()
+        .wrapContentSize(Alignment.TopEnd)
+        .absolutePadding(top = 45.dp, right = 20.dp)){
+        DropdownMenu(expanded = expanded,
+            onDismissRequest =  { expanded = false },
+            modifier = Modifier.width(140.dp)
+                .background(Color.White)) {
+            items.forEachIndexed {index, text ->
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    showDialogue.value = false
+
+                }) {
+                    Icon(imageVector = when (text) {
+                        "Favorite" -> Icons.Default.FavoriteBorder
+                        "Settings" -> Icons.Default.Settings
+                        "Alerts" -> Icons.Default.Notifications
+                        else -> Icons.Default.Info
+                    }, contentDescription = null,
+                        tint = Color.LightGray,
+                    )
+                    Text(text = text,
+                        fontWeight = FontWeight.W300,
+                        modifier = Modifier.clickable {
+                            navController.navigate(
+                                when (text) {
+                                    "Favorite" -> WeatherScreens.FavoriteCityScreen.name
+                                    "Settings" -> WeatherScreens.SettingScreen.name
+                                    "Alerts" -> WeatherScreens.NotificationScreen.name
+                                    else -> WeatherScreens.FeedbackScreen.name
+                                }
+                            )
+
+                        }
+                    )
+                }
+
+
+            }
+        }
+
+    }
 }
