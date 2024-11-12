@@ -5,17 +5,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.absolutePadding
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -24,7 +20,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -39,19 +34,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.weathermate.R
-//import com.example.weathermate.model.Favorite
 import com.example.weathermate.navigation.WeatherScreens
-//import com.example.weathermate.screens.favorite.FavoriteViewModel
-
-// Custom AppBar for the application
 import android.widget.Toast
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.weathermate.model.FavoriteCity
+import com.example.weathermate.screens.favorites.FavoriteCityViewModel
 
 @Composable
 fun WeatherMateAppBar(
@@ -60,18 +47,20 @@ fun WeatherMateAppBar(
     isHomeScreen: Boolean = true,
     elevation: Dp = 0.dp,
     navController: NavController,
+    favoriteCityViewModel: FavoriteCityViewModel = hiltViewModel(),
     onAddActionClicked: () -> Unit = {},
     onButtonClicked: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val showDialog = remember { mutableStateOf(false) }
-
-    if (showDialog.value) {
-        ShowSettingDropDownMenu(showDialogue = showDialog, navController = navController)
-    }
     val expanded = remember { mutableStateOf(false) }
 
-
+    if (showDialog.value) {
+        SettingsDropDownMenu(
+            showDialog = showDialog,
+            expanded = expanded,
+            navController = navController)
+    }
 
     TopAppBar(
         title = {
@@ -129,41 +118,79 @@ fun WeatherMateAppBar(
                 )
             }
 
-
-        },   backgroundColor = Color(0xFF4C9EF1), // Set the background color to the specified color
-        elevation = elevation)
+            if (isHomeScreen) {
+                val favList by favoriteCityViewModel.favoriteList.collectAsState()
+                val isFavorite = favList.any { it.city == title.split(",")[0] }
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_favorite),
+                    contentDescription = "favorite icon",
+                    tint = if (isFavorite) Color.Yellow else Color.White.copy(alpha = 0.9f),
+                    modifier = Modifier
+                        .scale(0.9f)
+                        .size(32.dp)
+                        .clickable {
+                            val dataList = title.split(",")
+                            val favorite = FavoriteCity(
+                                city = dataList[0],
+                                country = dataList[1]
+                            )
+                            if (!isFavorite) {
+                                favoriteCityViewModel.insertFavorite(favorite)
+                                Toast.makeText(context, "Added to favorite list", Toast.LENGTH_SHORT).show()
+                            } else {
+                                favoriteCityViewModel.deleteFavorite(favorite)
+                                Toast.makeText(context, "Removed from favorite list", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                )
+            }
+        },
+        backgroundColor = Color(0xFF4C9EF1), // Set the background color to the specified color
+        elevation = elevation
+    )
 }
+
 
 // Dropdown menu for the Favorite, Settings, Alerts, and Feedback
 @Composable
-fun ShowSettingDropDownMenu(showDialogue: MutableState<Boolean>, navController: NavController) {
-    var expanded by remember {
-        mutableStateOf(true)
-    }
-    val items = listOf("Favorite", "Settings", "Alerts", "Feedback", )
-    Column (modifier = Modifier.fillMaxWidth()
-        .wrapContentSize(Alignment.TopEnd)
-        .absolutePadding(top = 45.dp, right = 20.dp)){
-        DropdownMenu(expanded = expanded,
-            onDismissRequest =  { expanded = false },
-            modifier = Modifier.width(140.dp)
-                .background(Color.White)) {
-            items.forEachIndexed {index, text ->
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    showDialogue.value = false
+fun SettingsDropDownMenu(
+    showDialog: MutableState<Boolean>,
+    expanded: MutableState<Boolean>,
+    navController: NavController
+) {
+    val items = listOf("Alerts", "Settings", "Favorite", "Feedback")
 
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopEnd)
+            .absolutePadding(top = 45.dp, right = 20.dp)
+    ) {
+        DropdownMenu(
+            expanded = expanded.value, onDismissRequest = { expanded.value = false },
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF4C9EF1))
+        ) {
+            items.forEach { text ->
+                DropdownMenuItem(onClick = {
+                    expanded.value = false
+                    showDialog.value = false
                 }) {
-                    Icon(imageVector = when (text) {
-                        "Favorite" -> Icons.Default.FavoriteBorder
-                        "Settings" -> Icons.Default.Settings
-                        "Alerts" -> Icons.Default.Notifications
-                        else -> Icons.Default.Info
-                    }, contentDescription = null,
-                        tint = Color.LightGray,
+                    Icon(
+                        painter = when (text) {
+                            "Favorite" -> painterResource(id = R.drawable.ic_favorite)
+                            "Settings" -> painterResource(id = R.drawable.ic_settings)
+                            "Alerts" -> painterResource(id = R.drawable.ic_alerts)
+                            else -> painterResource(id = R.drawable.ic_feedback)
+                        },
+                        contentDescription = "menu icons",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+
                     )
-                    Text(text = text,
-                        fontWeight = FontWeight.W300,
+                    Text(
+                        text = text,
                         modifier = Modifier.clickable {
                             navController.navigate(
                                 when (text) {
@@ -173,14 +200,12 @@ fun ShowSettingDropDownMenu(showDialogue: MutableState<Boolean>, navController: 
                                     else -> WeatherScreens.FeedbacksScreen.name
                                 }
                             )
-
-                        }
+                        },
+                        fontWeight = FontWeight.W300,
+                        color = Color.White
                     )
                 }
-
-
             }
         }
-
     }
 }
