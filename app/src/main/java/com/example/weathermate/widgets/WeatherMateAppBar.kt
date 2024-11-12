@@ -168,9 +168,9 @@ fun ShowSettingDropDownMenu(showDialogue: MutableState<Boolean>, navController: 
                             navController.navigate(
                                 when (text) {
                                     "Favorite" -> WeatherScreens.FavoriteCityScreen.name
-                                    "Settings" -> WeatherScreens.SettingScreen.name
-                                    "Alerts" -> WeatherScreens.NotificationScreen.name
-                                    else -> WeatherScreens.FeedbackScreen.name
+                                    "Settings" -> WeatherScreens.SettingsScreen.name
+                                    "Alerts" -> WeatherScreens.AlertsScreen.name
+                                    else -> WeatherScreens.FeedbacksScreen.name
                                 }
                             )
 
