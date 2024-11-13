@@ -36,9 +36,14 @@ import androidx.navigation.NavController
 import com.example.weathermate.R
 import com.example.weathermate.navigation.WeatherScreens
 import android.widget.Toast
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewModelScope
 import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.screens.favorites.FavoriteCityViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun WeatherMateAppBar(
@@ -111,13 +116,60 @@ fun WeatherMateAppBar(
                     contentDescription = "back arrow",
                     tint = Color.White,
                     modifier = Modifier
-                        .size(34.dp)
                         .clickable {
                             onButtonClicked.invoke()
                         }
                 )
             }
 
+            if(isHomeScreen) {
+                Icon(imageVector = Icons.Default.Favorite,
+                    contentDescription = "favorite icon",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .scale(0.9f)
+                        .size(32.dp)
+                        .clickable {
+                            val dataList = title.split(",")
+                            val cityName = dataList[0]
+                            val countryName = dataList[1]
+
+                            // Check if the city is already in the favorite list
+                            favoriteCityViewModel.viewModelScope.launch {
+                                val existingCity = favoriteCityViewModel.getFavoriteCityById(cityName)
+
+                                if (existingCity != null) {
+                                    // showing message : City is already saved in list
+                                    Toast.makeText(
+                                        context,
+                                        "$cityName is already in your favorite list.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    // City is not in the list, save it
+                                    favoriteCityViewModel.insertFavorite(
+                                        FavoriteCity(
+                                            city = cityName,
+                                            country = countryName
+                                        )
+                                    )
+                                    Toast.makeText(
+                                        context,
+                                        "$cityName has been added to your favorite list.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+
+                        }
+                )
+            }
+        },
+        backgroundColor = Color(0xFF4C9EF1),
+        elevation = elevation
+    )
+}
+        /*
             if (isHomeScreen) {
                 val favList by favoriteCityViewModel.favoriteList.collectAsState()
                 val isFavorite = favList.any { it.city == title.split(",")[0] }
@@ -149,6 +201,8 @@ fun WeatherMateAppBar(
         elevation = elevation
     )
 }
+*
+         */
 
 
 // Dropdown menu for the Favorite, Settings, Alerts, and Feedback

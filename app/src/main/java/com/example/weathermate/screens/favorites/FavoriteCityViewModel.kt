@@ -56,6 +56,11 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
         }
     }
 
+    // Function to get favorite city by id
+    suspend fun getFavoriteCityById(city: String): FavoriteCity {
+        return repository.getFavoriteCityById(city)
+    }
+
     // Function to delete a favorite city
     fun deleteFavorite(city: FavoriteCity) {
         viewModelScope.launch(Dispatchers.IO) {
