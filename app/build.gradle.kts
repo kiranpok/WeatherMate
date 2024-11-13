@@ -57,6 +57,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.material3.android)
     val hiltVersion = "2.51.1"
     val composeVersion = "1.7.5"
     val roomVersion = "2.6.1"

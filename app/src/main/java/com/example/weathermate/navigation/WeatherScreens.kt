@@ -5,8 +5,9 @@ enum class WeatherScreens {
     SplashScreen,
     HomeScreen,
     SearchScreen,
-    FavoriteScreen,
+    FavoriteCityScreen,
     SettingsScreen,
-    FeedbackScreen,
-    AlertsScreen
+    FeedbacksScreen,
+    AlertsScreen,
+    NotificationScreen
 }

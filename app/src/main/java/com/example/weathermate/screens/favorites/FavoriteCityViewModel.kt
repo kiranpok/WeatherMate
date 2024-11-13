@@ -27,7 +27,7 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
             // Collect the list of favorite cities from the repository
             repository.getFavoriteCities().distinctUntilChanged()
                 .collect { listOfFavoriteCities ->
-                    if (listOfFavoriteCities.isNotEmpty()) {
+                    if (listOfFavoriteCities.isEmpty()) {
                         // Message if the list of favorite cities is empty
                         Log.d("TAG", ": Empty Favorites")
 
