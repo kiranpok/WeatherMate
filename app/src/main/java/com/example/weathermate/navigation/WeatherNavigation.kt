@@ -1,5 +1,6 @@
 package com.example.weathermate.navigation
 
+import SearchScreen
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
@@ -32,6 +33,11 @@ fun WeatherNavigation() {
             val mainViewModel = hiltViewModel<MainViewModel>()
             HomeScreen(navController = navController, mainViewModel = mainViewModel, city = city)
         }
+
+        composable(WeatherScreens.SearchScreen.name) {
+            SearchScreen(navController = navController)
+        }
+
 
         // navigate to the FavoriteCityScreen
         composable(WeatherScreens.FavoriteCityScreen.name) {
