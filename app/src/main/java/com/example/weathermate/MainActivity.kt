@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherMateApp()
         }
-        /*
+        /**
         // Trigger operations sequentially
         favoriteCityViewModel.viewModelScope.launch {
 
@@ -52,7 +52,8 @@ class MainActivity : ComponentActivity() {
 
             favoriteCityViewModel.deleteFavorite(updatedCity)
         }
-            **/
+        */
+
     }
 }
 
