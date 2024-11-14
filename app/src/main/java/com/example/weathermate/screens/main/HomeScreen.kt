@@ -1,11 +1,11 @@
 package com.example.weathermate.screens.main
 
 import HumidityWindPressureRow
+import NextWeekWeatherSection
 import SunsetSunriseRow
 import WeatherStateImage
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -164,7 +164,67 @@ fun MainContent(data: Weather, modifier: Modifier) {
                 }
 
             }
+            //Today's Weather
+            /*Text("Today", style = typography.subtitle1, color = Color.White)
+
+            Divider(
+                color = Color(0xFF3A83D6), thickness = 1.dp,
+            )
+            TodayWeatherSection(hourlyWeatherList = data.list)*/
+
+
+            Text("7- Day Forecast", style = typography.subtitle1, color = Color.White)
+            Divider(
+                color = Color(0xFF3A83D6), thickness = 1.dp,
+            )
+
+            //Today's Weather
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+
+                color = Color(0xFF48A1FF),
+                shape = RoundedCornerShape(12.dp),
+            ) {
+                LazyColumn(
+                    modifier = Modifier.padding(2.dp),
+                    contentPadding = PaddingValues(1.dp)
+                ) {
+                    items(items = data.list) { item: WeatherItem ->
+                        NextWeekWeatherSection(weather = item)
+                    }
+                }
+            }
+
+            //Next 7 Days Weather
+            Text("7- Day Forecast", style = typography.subtitle1, color = Color.White)
+
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                shape = RoundedCornerShape(12.dp),
+            ) {
+                LazyColumn(
+                    modifier = Modifier.padding(2.dp),
+                    contentPadding = PaddingValues(1.dp)
+
+                ) {
+                    items(items = data.list) { item: WeatherItem ->
+                        NextWeekWeatherSection(weather = item)
+                    }
+
+
+                }
+
+            }
+
 
         }
+
     }
+
 }
+
+
