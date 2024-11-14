@@ -115,7 +115,7 @@ fun WeatherMateAppBar(
                     painter = painterResource(id = R.drawable.ic_back_arrow),
                     contentDescription = "back arrow",
                     tint = Color.White,
-                    modifier = Modifier
+                    modifier = Modifier.size(32.dp)
                         .clickable {
                             onButtonClicked.invoke()
                         }

@@ -3,6 +3,7 @@ package com.example.weathermate.screens.main
 import HumidityWindPressureRow
 import NextWeekWeatherSection
 import SunsetSunriseRow
+import TodayWeatherSection
 import WeatherStateImage
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -55,16 +57,19 @@ fun HomeScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
     city: String?
 ) {
+    //Log.d("TAG", "HomeScreen: $city")
+
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
     ) {
-        value = mainViewModel.getWeatherData(city = city ?: "defaultCity", units = "metric")
+        value = mainViewModel.getWeatherData(city = city.toString(), units = "metric")
     }.value
 
     if (weatherData.loading == true) {
         CircularProgressIndicator()
     } else if (weatherData.data != null) {
         MainScaffold(weather = weatherData.data!!, navController)
+
     }
 }
 
@@ -103,7 +108,7 @@ fun MainContent(data: Weather, modifier: Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundColor)
+            .background(backgroundColor) // For background color
     ) {
         // Background Image
         /**Image(
@@ -121,11 +126,12 @@ fun MainContent(data: Weather, modifier: Modifier) {
             Surface(
                 modifier = Modifier
                     .padding(4.dp)
-                    .size(393.dp, 370.dp),
+                    .size(393.dp, 350.dp),
+
                 shape = RoundedCornerShape(12.dp),
-                color = Color(0xFF3F51B5),
+                color = Color(0xFF2196F3),
                 elevation = 5.dp,
-                border = BorderStroke(1.dp, Color(0xFF3A83D6))
+                border = BorderStroke(1.dp, Color(0xFF3F51B5))
             ) {
                 Column(
                     verticalArrangement = Arrangement.Center,
@@ -164,67 +170,38 @@ fun MainContent(data: Weather, modifier: Modifier) {
                 }
 
             }
-            //Today's Weather
-            /*Text("Today", style = typography.subtitle1, color = Color.White)
 
-            Divider(
-                color = Color(0xFF3A83D6), thickness = 1.dp,
-            )
-            TodayWeatherSection(hourlyWeatherList = data.list)*/
+            // Today's Weather
+            Text("Today", style = typography.subtitle1, color = Color.White)
 
+
+            TodayWeatherSection(hourlyWeatherList = data.list)
 
             Text("7- Day Forecast", style = typography.subtitle1, color = Color.White)
             Divider(
                 color = Color(0xFF3A83D6), thickness = 1.dp,
             )
 
-            //Today's Weather
+// Today's Weather
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(),
-
+                    .height(200.dp) ,
                 color = Color(0xFF48A1FF),
                 shape = RoundedCornerShape(12.dp),
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(2.dp),
-                    contentPadding = PaddingValues(1.dp)
+                    modifier = Modifier.padding(1.dp), // Remove padding
+                    contentPadding = PaddingValues(1.dp) // Remove content padding
                 ) {
                     items(items = data.list) { item: WeatherItem ->
                         NextWeekWeatherSection(weather = item)
                     }
                 }
-            }
-
-            //Next 7 Days Weather
-            Text("7- Day Forecast", style = typography.subtitle1, color = Color.White)
-
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                shape = RoundedCornerShape(12.dp),
-            ) {
-                LazyColumn(
-                    modifier = Modifier.padding(2.dp),
-                    contentPadding = PaddingValues(1.dp)
-
-                ) {
-                    items(items = data.list) { item: WeatherItem ->
-                        NextWeekWeatherSection(weather = item)
-                    }
-
-
-                }
-
             }
 
 
         }
 
     }
-
 }
-
-
