@@ -1,15 +1,20 @@
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.MaterialTheme.typography
@@ -23,7 +28,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.weathermate.R
@@ -31,35 +35,38 @@ import com.example.weathermate.model.WeatherItem
 import com.example.weathermate.utils.formatDateTime
 import com.example.weathermate.utils.formatDay
 import com.example.weathermate.utils.formatDecimals
-import com.example.weathermate.utils.formatHour
 import androidx.compose.material.Icon
+import com.example.weathermate.utils.formatHour
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
-/*@Composable
+@Composable
 fun TodayWeatherSection(hourlyWeatherList: List<WeatherItem>) {
+    val currentTime = LocalDateTime.now()
+    val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(horizontal = 8.dp),
         contentPadding = PaddingValues(horizontal = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(items = hourlyWeatherList) { item: WeatherItem ->
+        itemsIndexed(items = hourlyWeatherList) { index, item ->
+            val itemTime = currentTime.plusHours(index.toLong())
             Column(
                 modifier = Modifier
-
-                    .height(195.dp)
                     .wrapContentHeight()
                     .background(Color(0xFF48A1FF), shape = RoundedCornerShape(12.dp)),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    //will show from now to 24 hours
-                    text = formatHour(item.dt),
+                    text = itemTime.format(timeFormatter),
                     style = MaterialTheme.typography.caption,
                     color = Color.White,
-                    modifier = Modifier.padding(vertical = 2.dp)
+                    modifier = Modifier.padding(vertical = 4.dp)
                 )
                 WeatherStateImage(imageUrl = "https://openweathermap.org/img/wn/${item.weather[0].icon}.png")
                 Text(
@@ -67,13 +74,10 @@ fun TodayWeatherSection(hourlyWeatherList: List<WeatherItem>) {
                     style = typography.body1,
                     color = Color.White
                 )
-
             }
         }
     }
-}*/
-
-
+}
 
 @Composable
 fun NextWeekWeatherSection(weather: WeatherItem) {
@@ -128,7 +132,7 @@ fun SunsetSunriseRow(weather: WeatherItem) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp),
+            .padding(6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -228,7 +232,6 @@ fun HumidityWindPressureRow(weather: WeatherItem) {
 fun WeatherStateImage(imageUrl: String) {
     Image(
         painter = rememberAsyncImagePainter(imageUrl), contentDescription = "weather icon",
-        modifier = Modifier.size(150.dp)
+        modifier = Modifier.size(70.dp)
     )
 }
-

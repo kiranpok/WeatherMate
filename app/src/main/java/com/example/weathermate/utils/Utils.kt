@@ -33,4 +33,3 @@ fun formatDay(timestamp: Int): String {
     val date = Date(timestamp.toLong() * 1000)
     return simpleDateFormat.format(date)
 }
-
