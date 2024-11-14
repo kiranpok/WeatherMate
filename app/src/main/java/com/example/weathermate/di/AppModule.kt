@@ -6,21 +6,19 @@ import androidx.room.Room
 import com.example.weathermate.data.WeatherDao
 import com.example.weathermate.data.WeatherDatabase
 import com.example.weathermate.network.WeatherApi
-
-
+import com.example.weathermate.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-import com.example.weathermate.utils.Constants
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(SingletonComponent::class)
-class Appmodule {
+class AppModule {
 
     //  Provides an instance of the WeatherDao from the WeatherDatabase
     @Singleton
