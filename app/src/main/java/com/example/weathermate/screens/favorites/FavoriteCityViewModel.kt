@@ -88,7 +88,8 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
             Pair(temperature, weatherCondition)
         } catch (e: Exception) {
             Log.e("WeatherDetailsFetch", "Error fetching weather data for $cityName: ${e.message}", e)
-            Pair(0.0, "")  // Returning default values in case of failure
+            // Returning default values in case of failure
+            Pair(0.0, "")
         }
     }
 

@@ -148,12 +148,8 @@ fun WeatherMateAppBar(
 
                                     // Fetch weather data
                                     val (temperature, weatherCondition) = withContext(Dispatchers.IO) { favoriteCityViewModel.getWeatherDetails(cityName) }
-                                    /*
-                                    // Fetch weather data
-                                    val temperature = favoriteCityViewModel.getTemperature(cityName)
-                                    val weatherCondition = favoriteCityViewModel.getWeatherCondition(cityName)
-                                    */
-                                    // Additional logging to debug null values
+
+                                    //  logging to debug null values
                                     Log.d("WeatherMateAppBar", "Fetched temperature: $temperature")
                                     Log.d("WeatherMateAppBar", "Fetched weather condition: $weatherCondition")
 
