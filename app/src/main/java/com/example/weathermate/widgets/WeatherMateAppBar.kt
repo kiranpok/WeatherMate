@@ -1,5 +1,6 @@
 package com.example.weathermate.widgets
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,8 +17,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,12 +37,13 @@ import com.example.weathermate.navigation.WeatherScreens
 import android.widget.Toast
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewModelScope
 import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.screens.favorites.FavoriteCityViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun WeatherMateAppBar(
@@ -116,13 +116,14 @@ fun WeatherMateAppBar(
                     contentDescription = "back arrow",
                     tint = Color.White,
                     modifier = Modifier
+                        .size(32.dp)
                         .clickable {
                             onButtonClicked.invoke()
                         }
                 )
             }
 
-            if(isHomeScreen) {
+            if (isHomeScreen) {
                 Icon(imageVector = Icons.Default.Favorite,
                     contentDescription = "favorite icon",
                     tint = Color.White,
@@ -131,33 +132,57 @@ fun WeatherMateAppBar(
                         .size(32.dp)
                         .clickable {
                             val dataList = title.split(",")
+                            if (dataList.size < 2) {
+                                // Debugging: Log invalid title format
+                                Log.e("WeatherMateAppBar", "Invalid title format: $title")
+                                Toast.makeText(context, "Invalid city format", Toast.LENGTH_SHORT).show()
+                                return@clickable
+                            }
                             val cityName = dataList[0]
                             val countryName = dataList[1]
 
-                            // Check if the city is already in the favorite list
                             favoriteCityViewModel.viewModelScope.launch {
-                                val existingCity = favoriteCityViewModel.getFavoriteCityById(cityName)
+                                try {
+                                    // Log city name and start fetching process
+                                    Log.d("WeatherMateAppBar", "Fetching temperature and weather condition for $cityName")
 
-                                if (existingCity != null) {
-                                    // showing message : City is already saved in list
-                                    Toast.makeText(
-                                        context,
-                                        "$cityName is already in your favorite list.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    // City is not in the list, save it
-                                    favoriteCityViewModel.insertFavorite(
-                                        FavoriteCity(
-                                            city = cityName,
-                                            country = countryName
+                                    // Fetch weather data
+                                    val (temperature, weatherCondition) = withContext(Dispatchers.IO) { favoriteCityViewModel.getWeatherDetails(cityName) }
+                                    /*
+                                    // Fetch weather data
+                                    val temperature = favoriteCityViewModel.getTemperature(cityName)
+                                    val weatherCondition = favoriteCityViewModel.getWeatherCondition(cityName)
+                                    */
+                                    // Additional logging to debug null values
+                                    Log.d("WeatherMateAppBar", "Fetched temperature: $temperature")
+                                    Log.d("WeatherMateAppBar", "Fetched weather condition: $weatherCondition")
+
+                                    if (temperature == null || weatherCondition == null ) {
+                                        Log.e("WeatherMateAppBar", "Temperature or weather condition is null for $cityName")
+                                        Toast.makeText(context, "Error fetching weather data for $cityName", Toast.LENGTH_SHORT).show()
+                                        return@launch
+                                    }
+
+                                    // Check if city already exists in favorites
+                                    val existingCity = favoriteCityViewModel.getFavoriteCityById(cityName)
+                                    if (existingCity != null) {
+                                        Log.d("WeatherMateAppBar", "$cityName is already in the favorite list")
+                                        Toast.makeText(context, "$cityName is already in your favorite list.", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Log.d("WeatherMateAppBar", "Inserting $cityName into favorite list")
+                                        favoriteCityViewModel.insertFavorite(
+                                            FavoriteCity(
+                                                city = cityName,
+                                                country = countryName,
+                                                temperature = temperature,
+                                                weatherCondition = weatherCondition ?: ""
+                                            )
                                         )
-                                    )
-                                    Toast.makeText(
-                                        context,
-                                        "$cityName has been added to your favorite list.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                        Toast.makeText(context, "$cityName has been added to your favorite list.", Toast.LENGTH_SHORT).show()
+                                    }
+                                } catch (e: Exception) {
+                                    Log.e("WeatherMateAppBar", "Error saving favorite city: ${e.message}", e)
+                                    Toast.makeText(context, "Error saving favorite city: ${e.message}", Toast.LENGTH_SHORT).show()
                                 }
                             }
 
@@ -169,40 +194,6 @@ fun WeatherMateAppBar(
         elevation = elevation
     )
 }
-        /*
-            if (isHomeScreen) {
-                val favList by favoriteCityViewModel.favoriteList.collectAsState()
-                val isFavorite = favList.any { it.city == title.split(",")[0] }
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_favorite),
-                    contentDescription = "favorite icon",
-                    tint = if (isFavorite) Color.Yellow else Color.White.copy(alpha = 0.9f),
-                    modifier = Modifier
-                        .scale(0.9f)
-                        .size(32.dp)
-                        .clickable {
-                            val dataList = title.split(",")
-                            val favorite = FavoriteCity(
-                                city = dataList[0],
-                                country = dataList[1]
-                            )
-                            if (!isFavorite) {
-                                favoriteCityViewModel.insertFavorite(favorite)
-                                Toast.makeText(context, "Added to favorite list", Toast.LENGTH_SHORT).show()
-                            } else {
-                                favoriteCityViewModel.deleteFavorite(favorite)
-                                Toast.makeText(context, "Removed from favorite list", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                )
-            }
-        },
-        backgroundColor = Color(0xFF4C9EF1), // Set the background color to the specified color
-        elevation = elevation
-    )
-}
-*
-         */
 
 
 // Dropdown menu for the Favorite, Settings, Alerts, and Feedback

@@ -17,7 +17,7 @@ interface WeatherDao {
 
     // Get a specific city from the 'favorites' table
     @Query(value = "SELECT * FROM favorites WHERE city = :city")
-    suspend fun getFavoriteCityById(city: String): FavoriteCity
+    suspend fun getFavoriteCityById(city: String): FavoriteCity?
 
     // Insert a city into the database
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -34,6 +34,14 @@ interface WeatherDao {
     // Clear all cities from the 'favorites' table
     @Query(value = "DELETE FROM favorites")
     suspend fun deleteAllFavoriteCities()
+
+    // get temperature of a specific city
+    @Query("SELECT temperature FROM favorites WHERE city = :city")
+    suspend fun getTemperature(city: String): Double?
+
+    // get weather condition of a specific city
+    @Query(value = "SELECT weatherCondition FROM favorites WHERE city = :city")
+    suspend fun getWeatherCondition(city: String): String?
 
 
 }

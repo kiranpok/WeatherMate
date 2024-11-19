@@ -13,34 +13,33 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// ViewModel class that interacts with the repository to manage the favorite cities
 @HiltViewModel
-class FavoriteCityViewModel @Inject constructor(private val repository: WeatherDbRepository) : ViewModel(){
-    // Mutable state flow to hold the list of favorite cities
+class FavoriteCityViewModel @Inject constructor(private val repository: WeatherDbRepository) : ViewModel() {
     private val _favoriteList = MutableStateFlow<List<FavoriteCity>>(emptyList())
-    // Immutable state flow to expose the list of favorite cities
     val favoriteList = _favoriteList.asStateFlow()
 
-    // Initialize the favorite cities list
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            // Collect the list of favorite cities from the repository
-            repository.getFavoriteCities().distinctUntilChanged()
+            repository.getFavoriteCities()
+                .distinctUntilChanged()
                 .collect { listOfFavoriteCities ->
                     if (listOfFavoriteCities.isEmpty()) {
-                        // Message if the list of favorite cities is empty
                         Log.d("TAG", ": Empty Favorites")
-
                     } else {
-                        // Update the list of favorite cities if not empty
-                        _favoriteList.value = listOfFavoriteCities
+                        val updatedList = listOfFavoriteCities.map { city ->
+                            val (temperature, weatherCondition) = getWeatherDetails(city.city)
+                            city.copy(
+                                temperature = temperature,
+                                weatherCondition = weatherCondition
+                            )
+                        }
+                        _favoriteList.value = updatedList
                         Log.d("Favorites", ": ${favoriteList.value}")
                     }
                 }
         }
     }
 
-    // Function to insert a favorite city
     fun insertFavorite(city: FavoriteCity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertFavoriteCity(city)
@@ -48,7 +47,6 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
         }
     }
 
-    // Function to update a favorite city
     fun updateFavorite(city: FavoriteCity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateFavoriteCity(city)
@@ -56,12 +54,23 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
         }
     }
 
-    // Function to get favorite city by id
-    suspend fun getFavoriteCityById(city: String): FavoriteCity {
+    suspend fun getFavoriteCityById(city: String): FavoriteCity? {
         return repository.getFavoriteCityById(city)
     }
 
-    // Function to delete a favorite city
+    fun addCityAsFavorite(cityName: String, country: String) {
+        viewModelScope.launch {
+            val (temperature, condition) = getWeatherDetails(cityName)
+            val favoriteCity = FavoriteCity(
+                city = cityName,
+                country = country,
+                temperature = temperature,
+                weatherCondition = condition
+            )
+            insertFavorite(favoriteCity)
+        }
+    }
+
     fun deleteFavorite(city: FavoriteCity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteFavoriteCity(city)
@@ -69,4 +78,32 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
         }
     }
 
+    suspend fun getWeatherDetails(cityName: String): Pair<Double, String> {
+        return try {
+            val weatherResponse = repository.fetchWeatherData(cityName)
+            val weatherData = weatherResponse?.list?.firstOrNull()
+            val temperature = weatherData?.temp?.day ?: 0.0
+            val weatherCondition = weatherData?.weather?.firstOrNull()?.description ?: "Unknown"
+            Log.d("WeatherDetailsFetch", "Fetched weather data for $cityName: Temp = $temperature, Condition = $weatherCondition")
+            Pair(temperature, weatherCondition)
+        } catch (e: Exception) {
+            Log.e("WeatherDetailsFetch", "Error fetching weather data for $cityName: ${e.message}", e)
+            Pair(0.0, "")  // Returning default values in case of failure
+        }
+    }
+
+    fun fetchAndUpdateWeather(city: FavoriteCity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val (temperature, weatherCondition) = getWeatherDetails(city.city)
+                val updatedCity = city.copy(
+                    temperature = temperature,
+                    weatherCondition = weatherCondition
+                )
+                updateFavorite(updatedCity)
+            } catch (e: Exception) {
+                Log.e("WeatherUpdate", "Failed to fetch weather for ${city.city}: ${e.message}")
+            }
+        }
+    }
 }

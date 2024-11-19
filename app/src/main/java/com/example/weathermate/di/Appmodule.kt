@@ -40,10 +40,13 @@ class Appmodule {
         return Room.databaseBuilder(
             context,
             WeatherDatabase::class.java,
-            "weather_database")
+            "weather_database"
+        )
             .fallbackToDestructiveMigration()
             .build()
+
     }
+
 
     @Provides
     @Singleton
