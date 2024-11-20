@@ -22,9 +22,13 @@ import com.example.weathermate.R
 import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.navigation.WeatherScreens
 import com.example.weathermate.widgets.WeatherMateAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.layout.ContentScale
 
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
 // display Favorite City Screen
 @OptIn(ExperimentalMaterialApi::class)
@@ -109,38 +113,110 @@ fun FavoriteCityScreen(
     }
 }
 
-// function to display the favorite city row
 @Composable
 fun CityRow(
     favorite: FavoriteCity,
     navController: NavController,
     favoriteCityViewModel: FavoriteCityViewModel
 ) {
+    val mappedCondition = mapWeatherCondition(favorite.weatherCondition ?: "Unknown")
+
+    // Fahrenheit to Celsius
+    fun convertToCelsius(fahrenheit: Double): Double {
+        return (fahrenheit - 32) * 5 / 9
+    }
+
     Surface(
         modifier = Modifier
-            .padding(3.dp)
+            .padding(8.dp)
             .fillMaxWidth()
-            .height(50.dp)
+            .height(100.dp)
             .clickable {
                 navController.navigate(WeatherScreens.HomeScreen.name + "/${favorite.city}")
             },
-        shape = CircleShape.copy(CornerSize(6.dp)),
-        color = Color(0xFF957DCD) // Secondary color
+        shape = CircleShape.copy(CornerSize(12.dp)),
+        color = Color(0xFF2196F3)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = favorite.city, modifier = Modifier.padding(start = 4.dp), color = Color.White)
-
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = favorite.city,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = favorite.weatherCondition ?: "Unknown",
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
+                    color = Color.White
+                )
+            }
+            Image(
+                painter = painterResource(id = getWeatherIcon(mappedCondition)),
+                contentDescription = "weather icon",
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(start = 8.dp, end = 8.dp),
+                contentScale = ContentScale.Crop
+            )
             Text(
-                text = favorite.country,
-                modifier = Modifier.padding(4.dp),
+                text = favorite.temperature?.let {
+                    val celsius = convertToCelsius(it).toInt()
+                    "$celsius°"
+                } ?: "Unknown",
+                style = MaterialTheme.typography.titleLarge,
                 color = Color.White,
-                style = MaterialTheme.typography.caption
+                textAlign = TextAlign.End
             )
         }
     }
 }
+
+
+// function to get the weather icon based on the weather condition
+fun getWeatherIcon(weatherCondition: String?): Int {
+    return when (weatherCondition) {
+        "Sunny" -> R.drawable.ic_sunny
+        "Cloudy" -> R.drawable.ic_cloudy
+        "Rainy" -> R.drawable.ic_rainy
+        "Snow" -> R.drawable.ic_snow
+        "Thunderstorm" -> R.drawable.ic_thunder
+        "Storm" -> R.drawable.ic_storm
+        "Foggy" -> R.drawable.ic_foggy
+        else -> R.drawable.ic_unknown
+    }
+}
+
+
+fun mapWeatherCondition(description: String): String {
+    return when (description.toLowerCase()) {
+        //clear weather
+        "clear sky", "sky is clear" -> "Sunny"
+        //cloudy weather
+        "few clouds", "scattered clouds", "broken clouds", "overcast clouds" -> "Cloudy"
+        //rainy weather
+        "light rain", "moderate rain", "heavy intensity rain", "very heavy rain", "extreme rain", "rain" -> "Rainy"
+        //snowy weather
+        "snow", "light snow", "rain and snow", "heavy snow", "sleet", -> "Snow"
+        // thunderstorm weather
+        "thunderstorm", "thunderstorm with light rain", "thunderstorm with rain", "thunderstorm with heavy rain" -> "Thunderstorm"
+        // Stormy weather
+        "storm", "tropical storm", "severe storm" -> "Storm"
+        // Foggy weather
+        "mist", "smoke", "haze", "fog" -> "Foggy"
+        // default weather
+        else -> "Unknown"
+    }
+}
+
+
 
