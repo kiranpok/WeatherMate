@@ -121,10 +121,6 @@ fun CityRow(
 ) {
     val mappedCondition = mapWeatherCondition(favorite.weatherCondition ?: "Unknown")
 
-    // Fahrenheit to Celsius
-    fun convertToCelsius(fahrenheit: Double): Double {
-        return (fahrenheit - 32) * 5 / 9
-    }
 
     Surface(
         modifier = Modifier
@@ -170,8 +166,7 @@ fun CityRow(
             )
             Text(
                 text = favorite.temperature?.let {
-                    val celsius = convertToCelsius(it).toInt()
-                    "$celsius°"
+                    "${it.toInt()}°"
                 } ?: "Unknown",
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.White,
