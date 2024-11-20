@@ -28,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
 // display Favorite City Screen
 @OptIn(ExperimentalMaterialApi::class)
@@ -120,6 +121,11 @@ fun CityRow(
 ) {
     val mappedCondition = mapWeatherCondition(favorite.weatherCondition ?: "Unknown")
 
+    // Fahrenheit to Celsius
+    fun convertToCelsius(fahrenheit: Double): Double {
+        return (fahrenheit - 32) * 5 / 9
+    }
+
     Surface(
         modifier = Modifier
             .padding(8.dp)
@@ -147,9 +153,10 @@ fun CityRow(
                     style = MaterialTheme.typography.titleLarge,
                     color = Color.White
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = favorite.weatherCondition ?: "Unknown",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
                     color = Color.White
                 )
             }
@@ -157,12 +164,15 @@ fun CityRow(
                 painter = painterResource(id = getWeatherIcon(mappedCondition)),
                 contentDescription = "weather icon",
                 modifier = Modifier
-                    .size(50.dp)
+                    .size(100.dp)
                     .padding(start = 8.dp, end = 8.dp),
                 contentScale = ContentScale.Crop
             )
             Text(
-                text = favorite.temperature?.let { "$it°" } ?: "Unknown",
+                text = favorite.temperature?.let {
+                    val celsius = convertToCelsius(it).toInt()
+                    "$celsius°"
+                } ?: "Unknown",
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.White,
                 textAlign = TextAlign.End
@@ -178,24 +188,33 @@ fun getWeatherIcon(weatherCondition: String?): Int {
         "Sunny" -> R.drawable.ic_sunny
         "Cloudy" -> R.drawable.ic_cloudy
         "Rainy" -> R.drawable.ic_rainy
-        "Snow" -> R.drawable.ic_snowy
+        "Snow" -> R.drawable.ic_snow
         "Thunderstorm" -> R.drawable.ic_thunder
-        "Cloudy and Rainy" -> R.drawable.ic_cloudyandrainy
-        else -> R.drawable.ic_windspeed
+        "Storm" -> R.drawable.ic_storm
+        "Foggy" -> R.drawable.ic_foggy
+        else -> R.drawable.ic_unknown
     }
 }
 
 
 fun mapWeatherCondition(description: String): String {
     return when (description.toLowerCase()) {
+        //clear weather
         "clear sky", "sky is clear" -> "Sunny"
+        //cloudy weather
         "few clouds", "scattered clouds", "broken clouds", "overcast clouds" -> "Cloudy"
-        "shower rain", "rain" -> "Rainy"
-        "snow", "light snow", "rain and snow" -> "Snow"
-        "thunderstorm" -> "Thunderstorm"
-        "drizzle" -> "Cloudy and Rainy"
-        "light rain" -> "Cloudy and Rainy"
-        else -> "Storm"
+        //rainy weather
+        "light rain", "moderate rain", "heavy intensity rain", "very heavy rain", "extreme rain", "rain" -> "Rainy"
+        //snowy weather
+        "snow", "light snow", "rain and snow", "heavy snow", "sleet", -> "Snow"
+        // thunderstorm weather
+        "thunderstorm", "thunderstorm with light rain", "thunderstorm with rain", "thunderstorm with heavy rain" -> "Thunderstorm"
+        // Stormy weather
+        "storm", "tropical storm", "severe storm" -> "Storm"
+        // Foggy weather
+        "mist", "smoke", "haze", "fog" -> "Foggy"
+        // default weather
+        else -> "Unknown"
     }
 }
 
