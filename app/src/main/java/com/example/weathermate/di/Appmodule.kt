@@ -20,7 +20,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(SingletonComponent::class)
-class Appmodule {
+class AppModule {
 
     //  Provides an instance of the WeatherDao from the WeatherDatabase
     @Singleton
