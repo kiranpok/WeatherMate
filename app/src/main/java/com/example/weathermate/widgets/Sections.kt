@@ -36,6 +36,7 @@ import com.example.weathermate.utils.formatDateTime
 import com.example.weathermate.utils.formatDay
 import com.example.weathermate.utils.formatDecimals
 import androidx.compose.material.Icon
+import com.example.weathermate.utils.ActivityMappingUtils
 import com.example.weathermate.utils.formatHour
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -82,15 +83,14 @@ fun TodayWeatherSection(hourlyWeatherList: List<WeatherItem>) {
 @Composable
 fun NextWeekWeatherSection(weather: WeatherItem) {
     val imageUrl = "https://openweathermap.org/img/wn/${weather.weather[0].icon}.png"
+    val (activitySuggestion, activityIconRes) = ActivityMappingUtils.mapWeatherToActivity(weather.weather[0].main)
 
     Row(
         modifier = Modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
-    )
-    {
-
+    ) {
         Text(
             text = formatDay(weather.dt),
             style = typography.body1,
@@ -108,7 +108,6 @@ fun NextWeekWeatherSection(weather: WeatherItem) {
             text = buildAnnotatedString {
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                     append(formatDecimals(weather.temp.max))
-
                 }
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Light)) {
                     append(" ${formatDecimals(weather.temp.min)}")
@@ -118,15 +117,28 @@ fun NextWeekWeatherSection(weather: WeatherItem) {
             color = Color.White,
             modifier = Modifier.padding(4.dp)
         )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Icon(
+                painter = painterResource(id = activityIconRes),
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
+            Text(
+                text = activitySuggestion,
+                style = typography.body2,
+                color = Color.White
+            )
+        }
     }
 
     Divider(
         color = Color(0xFF3A83D6), thickness = 1.dp,
     )
-
 }
-
-
 @Composable
 fun SunsetSunriseRow(weather: WeatherItem) {
     Row(

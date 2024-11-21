@@ -12,15 +12,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -57,8 +60,6 @@ fun HomeScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
     city: String?
 ) {
-    //Log.d("TAG", "HomeScreen: $city")
-
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
     ) {
@@ -69,7 +70,6 @@ fun HomeScreen(
         CircularProgressIndicator()
     } else if (weatherData.data != null) {
         MainScaffold(weather = weatherData.data!!, navController)
-
     }
 }
 
@@ -82,126 +82,91 @@ fun MainScaffold(weather: Weather, navController: NavController) {
             onAddActionClicked = {
                 navController.navigate(WeatherScreens.SearchScreen.name)
             },
-
             elevation = 5.dp
         ) {
             Log.d("TAG", "MainScaffold: Button Clicked")
         }
-
     }) { paddingValues ->
         MainContent(
             data = weather,
-            modifier = Modifier.padding(paddingValues)
-
+            modifier = Modifier.padding(paddingValues),
+            navController = navController
         )
     }
 }
-
 @Composable
-fun MainContent(data: Weather, modifier: Modifier) {
+fun MainContent(data: Weather, modifier: Modifier, navController: NavController) {
     val weatherItem = data.list[0]
     val backgroundColor = Color(0xFF4C9EF1)
     val textColor = Color.White
-    val imageUrl = "https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}.png"
-
+    val imageUrl = "https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}.png"
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundColor) // For background color
+            .background(backgroundColor)
+            .safeDrawingPadding()
+
     ) {
-        // Background Image
-        /**Image(
-        painter = painterResource(id = R.drawable.ict_background_image),
-        contentDescription = "background image",
-        modifier = Modifier.fillMaxSize()
-        )**/
-        Column(
-            Modifier
-                .padding(4.dp)
-                .fillMaxWidth(),
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(4.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Surface(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .size(393.dp, 350.dp),
-
-                shape = RoundedCornerShape(12.dp),
-                color = Color(0xFF2196F3),
-                elevation = 5.dp,
-                border = BorderStroke(1.dp, Color(0xFF3F51B5))
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+            item {
+                Surface(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .size(393.dp, 350.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    color = Color(0xFF2196F3),
+                    elevation = 5.dp,
+                    border = BorderStroke(1.dp, Color(0xFF3F51B5))
                 ) {
-                    Text(
-                        text = formatDate(data.list[0].dt),
-                        style = MaterialTheme.typography.caption,
-                        color = Color.White,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier
-                            .padding(6.dp)
-                    )
-
-                    // Weather Image
-                    WeatherStateImage(imageUrl = imageUrl)
-                    Text(
-                        text = formatDecimals(data.list[0].temp.day),
-                        style = typography.h3,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
-                    )
-                    Text(
-                        text = data.list[0].weather[0].main,
-                        fontStyle = FontStyle.Italic,
-                        color = Color.White,
-                        style = MaterialTheme.typography.caption
-                    )
-
-                    HumidityWindPressureRow(weather = weatherItem)
-                    Divider(
-                        color = Color(0xFF3A83D6), thickness = 1.dp,
-                    )
-                    SunsetSunriseRow(weather = data.list[0])
-
-                }
-
-            }
-
-            // Today's Weather
-            Text("Today", style = typography.subtitle1, color = Color.White)
-
-
-            TodayWeatherSection(hourlyWeatherList = data.list)
-
-            Text("7- Day Forecast", style = typography.subtitle1, color = Color.White)
-            Divider(
-                color = Color(0xFF3A83D6), thickness = 1.dp,
-            )
-
-// Today's Weather
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp) ,
-                color = Color(0xFF48A1FF),
-                shape = RoundedCornerShape(12.dp),
-            ) {
-                LazyColumn(
-                    modifier = Modifier.padding(1.dp), // Remove padding
-                    contentPadding = PaddingValues(1.dp) // Remove content padding
-                ) {
-                    items(items = data.list) { item: WeatherItem ->
-                        NextWeekWeatherSection(weather = item)
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = formatDate(weatherItem.dt),
+                            style = MaterialTheme.typography.caption,
+                            color = Color.White,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(6.dp)
+                        )
+                        WeatherStateImage(imageUrl = imageUrl)
+                        Text(
+                            text = formatDecimals(weatherItem.temp.day),
+                            style = MaterialTheme.typography.h3,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White
+                        )
+                        Text(
+                            text = weatherItem.weather[0].description,
+                            fontStyle = FontStyle.Italic,
+                            color = Color.White,
+                            style = MaterialTheme.typography.caption
+                        )
+                        HumidityWindPressureRow(weather = weatherItem)
+                        Divider(color = Color(0xFF3A83D6), thickness = 1.dp)
+                        SunsetSunriseRow(weather = weatherItem)
                     }
                 }
             }
 
+            item {
+                Text("Today", style = MaterialTheme.typography.subtitle1, color = Color.White)
+                TodayWeatherSection(hourlyWeatherList = data.list)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("7-Day Forecast & suggested activities", style = MaterialTheme.typography.subtitle1, color = Color.White)
+                Divider(color = Color(0xFF3A83D6), thickness = 1.dp)
+            }
 
+            items(data.list) { item: WeatherItem ->
+                NextWeekWeatherSection(weather = item)
+            }
         }
-
     }
 }
