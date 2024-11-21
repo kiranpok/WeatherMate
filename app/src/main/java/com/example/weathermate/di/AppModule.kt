@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.example.weathermate.data.WeatherDao
 import com.example.weathermate.data.WeatherDatabase
 import com.example.weathermate.network.WeatherApi
+import com.example.weathermate.repository.WeatherRepository
 import com.example.weathermate.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -16,24 +17,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
 
-    // Provides an instance of the WeatherDao from the WeatherDatabase
     @Singleton
     @Provides
     fun provideWeatherDao(weatherDatabase: WeatherDatabase): WeatherDao {
         return weatherDatabase.weatherDao()
     }
 
-    // Provides an instance of the WeatherDatabase
     @Singleton
     @Provides
     fun provideAppDatabase(@ApplicationContext context: Context): WeatherDatabase {
-
-        // Log the database file path for debugging purposes
         val dbPath = context.getDatabasePath("weather_database").absolutePath
         Log.d("WeatherDatabase", "Database initialized at: $dbPath")
 
@@ -46,7 +42,6 @@ class AppModule {
             .build()
     }
 
-    // Provides an instance of the WeatherApi
     @Provides
     @Singleton
     fun provideOpenWeatherApi(): WeatherApi {
@@ -55,5 +50,11 @@ class AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(WeatherApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(api: WeatherApi): WeatherRepository {
+        return WeatherRepository(api)
     }
 }

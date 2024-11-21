@@ -9,5 +9,6 @@ enum class WeatherScreens {
     SettingsScreen,
     FeedbacksScreen,
     AlertsScreen,
-    NotificationScreen
+    NotificationScreen,
+    ActivityRecommendationScreen
 }

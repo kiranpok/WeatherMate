@@ -31,32 +31,33 @@ fun WeatherNavigation() {
         ) { backStackEntry ->
             val city = backStackEntry.arguments?.getString("city") ?: "defaultCity"
             val mainViewModel = hiltViewModel<MainViewModel>()
-            HomeScreen(navController = navController, mainViewModel = mainViewModel, city = city)
+            HomeScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+                city = city
+            )
         }
 
         composable(WeatherScreens.SearchScreen.name) {
             SearchScreen(navController = navController)
         }
 
-
-        // navigate to the FavoriteCityScreen
         composable(WeatherScreens.FavoriteCityScreen.name) {
             FavoriteCityScreen(navController = navController)
         }
 
-        // navigate to the SettingsScreen
         composable(WeatherScreens.SettingsScreen.name) {
             SettingsScreen(navController = navController)
         }
 
-        // navigate to the AlertsScreen
         composable(WeatherScreens.AlertsScreen.name) {
             AlertsScreen(navController = navController)
         }
 
-        // navigate to the FeedbacksScreen
         composable(WeatherScreens.FeedbacksScreen.name) {
             FeedbacksScreen(navController = navController)
         }
+
+
     }
 }

@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import com.example.weathermate.R
 import com.example.weathermate.navigation.WeatherScreens
 import android.widget.Toast
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.ui.platform.LocalContext
@@ -67,7 +68,7 @@ fun WeatherMateAppBar(
             navController = navController)
     }
 
-    TopAppBar(
+    TopAppBar(modifier = Modifier.systemBarsPadding(),
         title = {
             if (isHomeScreen)
                 Icon(
