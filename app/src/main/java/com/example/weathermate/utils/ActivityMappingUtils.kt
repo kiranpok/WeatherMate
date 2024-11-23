@@ -9,8 +9,8 @@ object ActivityMappingUtils {
             "sunny" -> "Swimming" to R.drawable.ic_swimming
             "snow" -> "Skating" to R.drawable.ic_skating
             "cloudy" -> "Yoga" to R.drawable.ic_yoga
-            "windy" -> "Gym" to R.drawable.ic_gym
-            "foggy" -> "Reading" to R.drawable.ic_reading
+            "moderate rain" -> "Gym" to R.drawable.ic_gym
+            "sky is clear" -> "Reading" to R.drawable.ic_reading
             else -> "Walking" to R.drawable.ic_walking
         }
     }

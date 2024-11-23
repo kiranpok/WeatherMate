@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -79,7 +81,10 @@ fun WeatherMateLogo(scale: Animatable<Float, AnimationVector1D>) {
         // Box to overlay two images
         Box(
             modifier = Modifier
-                .size(150.dp),
+                .width(300.dp),
+
+
+
 
             contentAlignment = Alignment.Center
         ) {
@@ -87,13 +92,16 @@ fun WeatherMateLogo(scale: Animatable<Float, AnimationVector1D>) {
             Image(
                 painter = painterResource(id = R.drawable.ic_logo),
                 contentDescription = "First Image",
+                modifier = Modifier
+
 
             )
-            Spacer(modifier = Modifier.padding(top = 16.dp))
+
             // Second image
             Image(
                 painter = painterResource(id = R.drawable.ic_logo1),
                 contentDescription = "Second Image",
+                modifier = Modifier.size(100.dp).padding(top = 16.dp)
 
             )
         }

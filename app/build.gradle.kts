@@ -114,7 +114,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
-
+// Accompanist System UI Controller
+    implementation(libs.accompanist.systemuicontroller.v0300)
 
 }
 

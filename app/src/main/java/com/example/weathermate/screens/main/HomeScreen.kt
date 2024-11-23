@@ -105,7 +105,8 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController)
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
-            .safeDrawingPadding()
+            .padding(4.dp)
+
 
     ) {
         LazyColumn(
