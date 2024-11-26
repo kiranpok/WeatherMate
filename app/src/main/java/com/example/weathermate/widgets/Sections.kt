@@ -83,7 +83,7 @@ fun TodayWeatherSection(hourlyWeatherList: List<WeatherItem>) {
 @Composable
 fun NextWeekWeatherSection(weather: WeatherItem) {
     val imageUrl = "https://openweathermap.org/img/wn/${weather.weather[0].icon}.png"
-    val (activitySuggestion, activityIconRes) = ActivityMappingUtils.mapWeatherToActivity(weather.weather[0].main)
+    val (activitySuggestion, activityIconRes) = ActivityMappingUtils.mapWeatherToActivity( weather.weather[0].description, weather.temp.max)
 
     Row(
         modifier = Modifier
