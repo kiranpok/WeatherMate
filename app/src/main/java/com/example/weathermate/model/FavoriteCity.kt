@@ -19,5 +19,6 @@ data class FavoriteCity(
     var temperature: Double? = null,
 
     @ColumnInfo(name = "weatherCondition")
-    var weatherCondition: String? = null
-)
+    var weatherCondition: String? = null,
+
+    )

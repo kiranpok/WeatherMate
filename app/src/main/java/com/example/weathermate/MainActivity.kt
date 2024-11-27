@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.compose.rememberNavController
 import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.navigation.WeatherNavigation
 import com.example.weathermate.screens.favorites.FavoriteCityViewModel
@@ -79,3 +80,4 @@ fun DefaultPreview() {
         WeatherMateApp()
     }
 }
+
