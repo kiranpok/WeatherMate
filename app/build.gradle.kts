@@ -117,6 +117,10 @@ dependencies {
 // Accompanist System UI Controller
     implementation(libs.accompanist.systemuicontroller.v0300)
 
+    // lottie animation for the background
+    implementation("com.airbnb.android:lottie-compose:6.0.0")
+
+
 }
 
 fun kapt(s: String) {
