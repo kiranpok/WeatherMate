@@ -34,7 +34,7 @@ class WeatherRepository @Inject constructor(
     suspend fun getWeatherForecast(city: String): List<ActivityRecommendation> {
         val weatherData = getWeather(city, "metric").data ?: return emptyList()
         return weatherData.list.map { day ->
-            val activity = ActivityMappingUtils.mapWeatherToActivity(day.weather[0].main)
+            val activity = ActivityMappingUtils.mapWeatherToActivity(day.weather[0].main, day.temp.day)
             val iconUrl = ActivityMappingUtils.buildIconUrl(day.weather[0].icon)
             val formattedDate = formatDate(day.dt)
             val formattedTemp = formatDecimals(day.temp.day)

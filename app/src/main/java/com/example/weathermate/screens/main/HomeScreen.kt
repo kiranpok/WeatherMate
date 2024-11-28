@@ -43,6 +43,7 @@ import com.example.weathermate.data.DataOrException
 import com.example.weathermate.model.Weather
 import com.example.weathermate.model.WeatherItem
 import com.example.weathermate.navigation.WeatherScreens
+import com.example.weathermate.ui.theme.WeatherBackground
 import com.example.weathermate.utils.formatDate
 import com.example.weathermate.utils.formatDecimals
 import com.example.weathermate.widgets.WeatherMateAppBar
@@ -108,8 +109,7 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
-            .safeDrawingPadding()
-
+            .padding(4.dp)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -128,33 +128,37 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
                     elevation = 5.dp,
                     border = BorderStroke(1.dp, Color(0xFF3F51B5))
                 ) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = formatDate(weatherItem.dt),
-                            style = MaterialTheme.typography.caption,
-                            color = Color.White,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(6.dp)
-                        )
-                        WeatherStateImage(imageUrl = imageUrl)
-                        Text(
-                            text = formatDecimals(weatherItem.temp.day),
-                            style = MaterialTheme.typography.h3,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
-                        )
-                        Text(
-                            text = weatherItem.weather[0].description,
-                            fontStyle = FontStyle.Italic,
-                            color = Color.White,
-                            style = MaterialTheme.typography.caption
-                        )
-                        HumidityWindPressureRow(weather = weatherItem)
-                        Divider(color = Color(0xFF3A83D6), thickness = 1.dp)
-                        SunsetSunriseRow(weather = weatherItem)
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        WeatherBackground(weatherCondition = weatherItem.weather[0].main)
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Text(
+                                text = formatDate(weatherItem.dt),
+                                style = MaterialTheme.typography.caption,
+                                color = Color.White,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.padding(6.dp)
+                            )
+                            WeatherStateImage(imageUrl = imageUrl)
+                            Text(
+                                text = formatDecimals(weatherItem.temp.day),
+                                style = MaterialTheme.typography.h3,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.White
+                            )
+                            Text(
+                                text = weatherItem.weather[0].description,
+                                fontStyle = FontStyle.Italic,
+                                color = Color.White,
+                                style = MaterialTheme.typography.caption
+                            )
+                            HumidityWindPressureRow(weather = weatherItem)
+                            Divider(color = Color(0xFF3A83D6), thickness = 1.dp)
+                            SunsetSunriseRow(weather = weatherItem)
+                        }
                     }
                 }
             }
