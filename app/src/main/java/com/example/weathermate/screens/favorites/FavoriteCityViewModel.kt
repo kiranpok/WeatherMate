@@ -65,11 +65,12 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
                 city = cityName,
                 country = country,
                 temperature = temperature,
-                weatherCondition = condition
+                weatherCondition = condition,
             )
             insertFavorite(favoriteCity)
         }
     }
+
 
     fun deleteFavorite(city: FavoriteCity) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -84,27 +85,20 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
             val weatherData = weatherResponse?.list?.firstOrNull()
             val temperature = weatherData?.temp?.day ?: 0.0
             val weatherCondition = weatherData?.weather?.firstOrNull()?.description ?: "Unknown"
-            Log.d("WeatherDetailsFetch", "Fetched weather data for $cityName: Temp = $temperature, Condition = $weatherCondition")
+            Log.d(
+                "WeatherDetailsFetch",
+                "Fetched weather data for $cityName: Temp = $temperature, Condition = $weatherCondition"
+            )
             Pair(temperature, weatherCondition)
         } catch (e: Exception) {
-            Log.e("WeatherDetailsFetch", "Error fetching weather data for $cityName: ${e.message}", e)
+            Log.e(
+                "WeatherDetailsFetch",
+                "Error fetching weather data for $cityName: ${e.message}",
+                e
+            )
             // Returning default values in case of failure
             Pair(0.0, "")
         }
     }
 
-    fun fetchAndUpdateWeather(city: FavoriteCity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val (temperature, weatherCondition) = getWeatherDetails(city.city)
-                val updatedCity = city.copy(
-                    temperature = temperature,
-                    weatherCondition = weatherCondition
-                )
-                updateFavorite(updatedCity)
-            } catch (e: Exception) {
-                Log.e("WeatherUpdate", "Failed to fetch weather for ${city.city}: ${e.message}")
-            }
-        }
-    }
 }

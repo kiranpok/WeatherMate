@@ -6,7 +6,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.weathermate.model.FavoriteCity
+import com.example.weathermate.model.Unit
 import kotlinx.coroutines.flow.Flow
+import kotlin.Unit as Unit1
 
 // DAO interface for accessing favorites table in the database
 @Dao
@@ -42,6 +44,24 @@ interface WeatherDao {
     // get weather condition of a specific city
     @Query(value = "SELECT weatherCondition FROM favorites WHERE city = :city")
     suspend fun getWeatherCondition(city: String): String?
+
+
+    //Unit table
+    @Query(value = "SELECT * FROM settings_tbl")
+    fun getUnits(): Flow<List<Unit>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUnit(unit: Unit)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateUnit(unit: Unit)
+
+    @Query(value = "DELETE from settings_tbl")
+    suspend fun deleteAllUnits()
+
+    // Delete a specific unit from the database
+    @Delete
+    suspend fun deleteUnit(city: Unit)
 
 
 }
