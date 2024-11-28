@@ -238,7 +238,8 @@ fun SettingsDropDownMenu(
                                 when (text) {
                                     "Favorite" -> WeatherScreens.FavoriteCityScreen.name
                                     "Settings" -> WeatherScreens.SettingsScreen.name
-                                    "Alerts" -> WeatherScreens.AlertsScreen.name
+                                    "Alerts" -> "${WeatherScreens.WeatherAlertsScreen.name}/0.0/0.0/metric"
+
                                     else -> WeatherScreens.FeedbacksScreen.name
                                 }
                             )

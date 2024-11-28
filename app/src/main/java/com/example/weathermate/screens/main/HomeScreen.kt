@@ -11,9 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,27 +21,24 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
-import com.example.weathermate.R
 import com.example.weathermate.data.DataOrException
 import com.example.weathermate.model.Weather
 import com.example.weathermate.model.WeatherItem
@@ -59,7 +54,8 @@ import com.example.weathermate.widgets.WeatherMateAppBar
 fun HomeScreen(
     navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel(),
-    city: String?
+    city: String?,
+
 ) {
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
@@ -70,12 +66,18 @@ fun HomeScreen(
     if (weatherData.loading == true) {
         CircularProgressIndicator()
     } else if (weatherData.data != null) {
-        MainScaffold(weather = weatherData.data!!, navController)
+        val weatherAlerts = remember {
+            weatherData.data?.let {
+                mainViewModel.getWeatherAlerts(it.list)
+            } ?: listOf()
+        }
+
+        MainScaffold(weather = weatherData.data!!, navController, weatherAlerts)
     }
 }
 
 @Composable
-fun MainScaffold(weather: Weather, navController: NavController) {
+fun MainScaffold(weather: Weather, navController: NavController, weatherAlerts: List<String>) {
     Scaffold(topBar = {
         WeatherMateAppBar(
             title = weather.city.name + " ,${weather.city.country}",
@@ -91,12 +93,13 @@ fun MainScaffold(weather: Weather, navController: NavController) {
         MainContent(
             data = weather,
             modifier = Modifier.padding(paddingValues),
-            navController = navController
+            navController = navController,
+            weatherAlerts = weatherAlerts
         )
     }
 }
 @Composable
-fun MainContent(data: Weather, modifier: Modifier, navController: NavController) {
+fun MainContent(data: Weather, modifier: Modifier, navController: NavController, weatherAlerts: List<String>) {
     val weatherItem = data.list[0]
     val backgroundColor = Color(0xFF4C9EF1)
     val textColor = Color.White
@@ -160,6 +163,14 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController)
                 }
             }
 
+            // Display weather alerts
+            item {
+                if (weatherAlerts.isNotEmpty()) {
+                    AlertSection(alerts = weatherAlerts)
+                }
+            }
+
+
             item {
                 Text("Today", style = MaterialTheme.typography.subtitle1, color = Color.White)
                 TodayWeatherSection(hourlyWeatherList = data.list)
@@ -171,6 +182,24 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController)
             items(data.list) { item: WeatherItem ->
                 NextWeekWeatherSection(weather = item)
             }
+        }
+    }
+}
+
+@Composable
+fun AlertSection(alerts: List<String>) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        alerts.forEach { alert ->
+            Text(
+                text = alert,
+                style = MaterialTheme.typography.body2.copy(color = Color.White),
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp
+            )
         }
     }
 }

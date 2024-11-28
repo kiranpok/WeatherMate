@@ -13,7 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+
 import androidx.core.view.WindowCompat
+
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.compose.rememberNavController
+import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.navigation.WeatherNavigation
 import com.example.weathermate.screens.favorites.FavoriteCityViewModel
 import com.example.weathermate.ui.theme.WeatherMateTheme
@@ -55,6 +62,14 @@ fun WeatherMateApp() {
                 WeatherNavigation()
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    WeatherMateTheme {
+        WeatherMateApp()
     }
 }
 

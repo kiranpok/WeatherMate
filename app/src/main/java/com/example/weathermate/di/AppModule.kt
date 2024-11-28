@@ -7,6 +7,7 @@ import com.example.weathermate.data.WeatherDao
 import com.example.weathermate.data.WeatherDatabase
 import com.example.weathermate.network.WeatherApi
 import com.example.weathermate.repository.WeatherRepository
+import com.example.weathermate.screens.alerts.WeatherAlertService
 import com.example.weathermate.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -52,9 +53,20 @@ class AppModule {
             .create(WeatherApi::class.java)
     }
 
-    @Provides
     @Singleton
-    fun provideWeatherRepository(api: WeatherApi): WeatherRepository {
-        return WeatherRepository(api)
+    @Provides
+    fun provideWeatherAlertService(): WeatherAlertService {
+        return WeatherAlertService()
     }
+
+    @Singleton
+    fun provideWeatherRepository(
+        api: WeatherApi,
+        weatherAlertService: WeatherAlertService,
+    ): WeatherRepository {
+        return WeatherRepository(api, weatherAlertService)
+    }
+
+
+
 }

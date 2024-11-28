@@ -2,10 +2,12 @@ package com.example.weathermate.repository
 import android.util.Log
 import com.example.weathermate.data.WeatherDao
 import com.example.weathermate.model.FavoriteCity
+import com.example.weathermate.model.Unit
 import com.example.weathermate.model.Weather
 import com.example.weathermate.network.WeatherApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -73,6 +75,38 @@ class WeatherDbRepository @Inject constructor(private val weatherDao: WeatherDao
                 null
             }
         }
+
     }
 
+    // Unit (Settings) Management
+    fun getUnits(): Flow<List<Unit>> {
+        return weatherDao.getUnits()
+    }
+
+    suspend fun insertUnit(unit: Unit) {
+        Log.d("WeatherDbRepository", "Inserting or updating unit: ${unit}")
+        weatherDao.insertUnit(unit)
+    }
+
+    suspend fun updateUnit(unit: Unit) {
+        Log.d("WeatherDbRepository", "Updating unit: ${unit}")
+        weatherDao.updateUnit(unit)
+    }
+
+    suspend fun deleteUnit(unit: Unit) {
+        Log.d("WeatherDbRepository", "Deleting unit: ${unit}")
+        weatherDao.deleteUnit(unit)
+    }
+
+    suspend fun deleteAllUnits() {
+        Log.d("WeatherDbRepository", "Deleting all units")
+        weatherDao.deleteAllUnits()
+    }
+
+    suspend fun getCurrentUnit(): Unit? {
+        return withContext(Dispatchers.IO) {
+            val units = weatherDao.getUnits().firstOrNull() // Get first emission
+            units?.firstOrNull() // Return the first unit if exists
+        }
+    }
 }
