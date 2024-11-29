@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.weathermate.screens.alerts.AlertsScreen
 import com.example.weathermate.screens.favorites.FavoriteCityScreen
 import com.example.weathermate.screens.feedbacks.FeedbacksScreen
 import com.example.weathermate.screens.main.HomeScreen
@@ -48,10 +47,6 @@ fun WeatherNavigation() {
 
         composable(WeatherScreens.SettingsScreen.name) {
             SettingsScreen(navController = navController)
-        }
-
-        composable(WeatherScreens.AlertsScreen.name) {
-            AlertsScreen(navController = navController)
         }
 
         composable(WeatherScreens.FeedbacksScreen.name) {

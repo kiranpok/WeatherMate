@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -20,37 +21,29 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
-import com.example.weathermate.R
 import com.example.weathermate.data.DataOrException
 import com.example.weathermate.model.Weather
 import com.example.weathermate.model.WeatherItem
 import com.example.weathermate.navigation.WeatherScreens
-import com.example.weathermate.screens.settings.SettingsViewModel
+import com.example.weathermate.ui.theme.WeatherBackground
 import com.example.weathermate.utils.formatDate
 import com.example.weathermate.utils.formatDecimals
 import com.example.weathermate.widgets.WeatherMateAppBar
@@ -61,42 +54,30 @@ import com.example.weathermate.widgets.WeatherMateAppBar
 fun HomeScreen(
     navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel(),
-    settingsViewModel: SettingsViewModel = hiltViewModel(),
-    city: String?
+    city: String?,
+
 ) {
+    val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
+        initialValue = DataOrException(loading = true)
+    ) {
+        value = mainViewModel.getWeatherData(city = city.toString(), units = "metric")
+    }.value
 
-    val curCity: String = if (city!!.isBlank()) "Helsinki" else city  // added currentcity here
-    //Added for unit
-    val unitFromDb = settingsViewModel.unitList.collectAsState().value
-    var unit by remember {
-        mutableStateOf("imperial")
-    }
-
-    var isImperial by remember {
-        mutableStateOf(false)
-    }
-
-    if (!unitFromDb.isNullOrEmpty()){
-        unit = unitFromDb[0].unit.split(" ")[0].lowercase()
-        isImperial = unit == "imperial"
-
-        val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
-            initialValue = DataOrException(loading = true)
-        ) {
-            value = mainViewModel.getWeatherData(city = curCity, units = unit) //Pass the units and current city
-        }.value
-
-        if (weatherData.loading == true) {
-            CircularProgressIndicator()
-        } else if (weatherData.data != null) {
-            MainScaffold(weather = weatherData.data!!, navController)
+    if (weatherData.loading == true) {
+        CircularProgressIndicator()
+    } else if (weatherData.data != null) {
+        val weatherAlerts = remember {
+            weatherData.data?.let {
+                mainViewModel.getWeatherAlerts(it.list)
+            } ?: listOf()
         }
-    }
-    }
 
+        MainScaffold(weather = weatherData.data!!, navController, weatherAlerts)
+    }
+}
 
 @Composable
-fun MainScaffold(weather: Weather, navController: NavController) {
+fun MainScaffold(weather: Weather, navController: NavController, weatherAlerts: List<String>) {
     Scaffold(topBar = {
         WeatherMateAppBar(
             title = weather.city.name + " ,${weather.city.country}",
@@ -112,12 +93,13 @@ fun MainScaffold(weather: Weather, navController: NavController) {
         MainContent(
             data = weather,
             modifier = Modifier.padding(paddingValues),
-            navController = navController
+            navController = navController,
+            weatherAlerts = weatherAlerts
         )
     }
 }
 @Composable
-fun MainContent(data: Weather, modifier: Modifier, navController: NavController) {
+fun MainContent(data: Weather, modifier: Modifier, navController: NavController, weatherAlerts: List<String>) {
     val weatherItem = data.list[0]
     val backgroundColor = Color(0xFF4C9EF1)
     val textColor = Color.White
@@ -127,8 +109,7 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController)
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
-            .safeDrawingPadding()
-
+            .padding(4.dp)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -147,36 +128,48 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController)
                     elevation = 5.dp,
                     border = BorderStroke(1.dp, Color(0xFF3F51B5))
                 ) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = formatDate(weatherItem.dt),
-                            style = MaterialTheme.typography.caption,
-                            color = Color.White,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(6.dp)
-                        )
-                        WeatherStateImage(imageUrl = imageUrl)
-                        Text(
-                            text = formatDecimals(weatherItem.temp.day),
-                            style = MaterialTheme.typography.h3,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
-                        )
-                        Text(
-                            text = weatherItem.weather[0].description,
-                            fontStyle = FontStyle.Italic,
-                            color = Color.White,
-                            style = MaterialTheme.typography.caption
-                        )
-                        HumidityWindPressureRow(weather = weatherItem)
-                        Divider(color = Color(0xFF3A83D6), thickness = 1.dp)
-                        SunsetSunriseRow(weather = weatherItem)
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        WeatherBackground(weatherCondition = weatherItem.weather[0].main)
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Text(
+                                text = formatDate(weatherItem.dt),
+                                style = MaterialTheme.typography.caption,
+                                color = Color.White,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.padding(6.dp)
+                            )
+                            WeatherStateImage(imageUrl = imageUrl)
+                            Text(
+                                text = formatDecimals(weatherItem.temp.day),
+                                style = MaterialTheme.typography.h3,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.White
+                            )
+                            Text(
+                                text = weatherItem.weather[0].description,
+                                fontStyle = FontStyle.Italic,
+                                color = Color.White,
+                                style = MaterialTheme.typography.caption
+                            )
+                            HumidityWindPressureRow(weather = weatherItem)
+                            Divider(color = Color(0xFF3A83D6), thickness = 1.dp)
+                            SunsetSunriseRow(weather = weatherItem)
+                        }
                     }
                 }
             }
+
+            // Display weather alerts
+            item {
+                if (weatherAlerts.isNotEmpty()) {
+                    AlertSection(alerts = weatherAlerts)
+                }
+            }
+
 
             item {
                 Text("Today", style = MaterialTheme.typography.subtitle1, color = Color.White)
@@ -189,6 +182,24 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController)
             items(data.list) { item: WeatherItem ->
                 NextWeekWeatherSection(weather = item)
             }
+        }
+    }
+}
+
+@Composable
+fun AlertSection(alerts: List<String>) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        alerts.forEach { alert ->
+            Text(
+                text = alert,
+                style = MaterialTheme.typography.body2.copy(color = Color.White),
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp
+            )
         }
     }
 }

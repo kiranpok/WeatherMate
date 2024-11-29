@@ -1,27 +1,24 @@
 package com.example.weathermate.ui.theme
+
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColors(
     primary = Purple80,
-    secondary = PurpleGrey80
+    secondary = PurpleGrey80,
+    background = Color(0xFF121212) // Custom dark background color
 )
 
 private val LightColorScheme = lightColors(
-    primary = Purple40,
-    secondary = PurpleGrey40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = Blue,
+    secondary = PurpleGrey40,
+    background = Color( 0xFF4C9EF1) // Custom light background color
 )
 
 @Composable
@@ -33,6 +30,15 @@ fun WeatherMateTheme(
         DarkColorScheme
     } else {
         LightColorScheme
+    }
+
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent, // Make system bars transparent
+            darkIcons = !darkTheme // Use dark icons for light theme and vice versa
+        )
     }
 
     MaterialTheme(

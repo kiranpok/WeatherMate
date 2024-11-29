@@ -89,6 +89,8 @@ dependencies {
     // OkHttp
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
 
+
+
     // JSON Converter
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
@@ -114,6 +116,11 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
+// Accompanist System UI Controller
+    implementation(libs.accompanist.systemuicontroller.v0300)
+
+    // lottie animation for the background
+    implementation("com.airbnb.android:lottie-compose:6.0.0")
 
 
 }
