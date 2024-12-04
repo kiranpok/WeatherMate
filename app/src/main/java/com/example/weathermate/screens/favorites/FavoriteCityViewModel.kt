@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.repository.WeatherDbRepository
+import com.example.weathermate.screens.settings.SettingsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -102,3 +103,4 @@ class FavoriteCityViewModel @Inject constructor(private val repository: WeatherD
     }
 
 }
+

@@ -17,44 +17,39 @@ class SettingsViewModel @Inject constructor(
     private val repository: WeatherDbRepository
 ) : ViewModel() {
 
-    // MutableStateFlow to hold the list of units
     private val _unitList = MutableStateFlow<List<Unit>>(emptyList())
     val unitList = _unitList.asStateFlow()
 
-    // Initialize and load the current list of units
     init {
+        loadUnits()
+    }
+
+    private fun loadUnits() {
         viewModelScope.launch {
             repository.getUnits()
-                .distinctUntilChanged() // Ensure updates are only sent if the data changes
+                .distinctUntilChanged()
                 .collect { listOfUnits ->
                     if (listOfUnits.isNullOrEmpty()) {
-                        Log.d("SettingsViewModel", "Unit list is empty")
+                        addDefaultUnit()
                     } else {
-                        _unitList.value = listOfUnits // Update the state flow with the new list
+                        _unitList.value = listOfUnits
                     }
                 }
         }
     }
 
-    // Insert a new unit into the database
+    private suspend fun addDefaultUnit() {
+        val defaultUnit = Unit(unit = "Metric (C)")
+        repository.insertUnit(defaultUnit)
+    }
+
     fun insertUnit(unit: Unit) = viewModelScope.launch {
         repository.insertUnit(unit)
     }
 
-    // Update an existing unit in the database
-    fun updateUnit(unit: Unit) = viewModelScope.launch {
-        repository.updateUnit(unit)
-    }
-
-    // Delete all units from the database
     fun deleteAllUnits() = viewModelScope.launch {
         repository.deleteAllUnits()
     }
 
-    // Delete a specific unit from the database
-    fun deleteUnit(unit: Unit) = viewModelScope.launch {
-        repository.deleteUnit(unit)
-    }
+
 }
-
-

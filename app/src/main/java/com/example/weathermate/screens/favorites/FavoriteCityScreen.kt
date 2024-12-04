@@ -24,11 +24,11 @@ import com.example.weathermate.navigation.WeatherScreens
 import com.example.weathermate.widgets.WeatherMateAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.layout.ContentScale
-
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.example.weathermate.screens.settings.SettingsViewModel
 
 // display Favorite City Screen
 @OptIn(ExperimentalMaterialApi::class)
@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 fun FavoriteCityScreen(
     navController: NavController,
     favoriteCityViewModel: FavoriteCityViewModel = hiltViewModel()
-    ) {
+) {
 
     val context = LocalContext.current
 
@@ -212,6 +212,3 @@ fun mapWeatherCondition(description: String): String {
         else -> "Unknown"
     }
 }
-
-
-
