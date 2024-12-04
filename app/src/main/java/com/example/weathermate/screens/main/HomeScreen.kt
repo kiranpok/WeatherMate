@@ -28,6 +28,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,53 +45,77 @@ import com.example.weathermate.data.DataOrException
 import com.example.weathermate.model.Weather
 import com.example.weathermate.model.WeatherItem
 import com.example.weathermate.navigation.WeatherScreens
+import com.example.weathermate.screens.settings.SettingsViewModel
 import com.example.weathermate.ui.theme.WeatherBackground
 import com.example.weathermate.utils.formatDate
 import com.example.weathermate.utils.formatDecimals
 import com.example.weathermate.widgets.WeatherMateAppBar
 
 
-// Home Screen
 @Composable
 fun HomeScreen(
     navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel(),
-    city: String?,
-
+    settingsViewModel: SettingsViewModel = hiltViewModel(),
+    city: String?
 ) {
+    // Get the unit from settings
+    val unitList by settingsViewModel.unitList.collectAsState()
+    val unit = unitList.firstOrNull()?.unit?.split(" ")?.get(0)?.lowercase() ?: "metric"
+
+    // Fetch weather data for the selected city and unit
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
     ) {
-        value = mainViewModel.getWeatherData(city = city.toString(), units = "metric")
+        value = mainViewModel.getWeatherData(city = city.toString(), units = unit)
     }.value
 
-    if (weatherData.loading == true) {
-        CircularProgressIndicator()
-    } else if (weatherData.data != null) {
-        val weatherAlerts = remember {
-            weatherData.data?.let {
-                mainViewModel.getWeatherAlerts(it.list)
-            } ?: listOf()
+    // Display loading, error, or data UI
+    when {
+        weatherData.loading == true -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
         }
+        weatherData.data != null -> {
+            // Fetch weather alerts if the data is available
+            val weatherAlerts = remember {
+                weatherData.data?.let {
+                    mainViewModel.getWeatherAlerts(it.list)
+                } ?: listOf()
+            }
 
-        MainScaffold(weather = weatherData.data!!, navController, weatherAlerts)
+            MainScaffold(weather = weatherData.data!!, navController, weatherAlerts)
+        }
+        else -> {
+            // Error case
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Unable to load weather data. Please check your network connection.")
+            }
+        }
     }
 }
 
 @Composable
 fun MainScaffold(weather: Weather, navController: NavController, weatherAlerts: List<String>) {
-    Scaffold(topBar = {
-        WeatherMateAppBar(
-            title = weather.city.name + " ,${weather.city.country}",
-            navController = navController,
-            onAddActionClicked = {
-                navController.navigate(WeatherScreens.SearchScreen.name)
-            },
-            elevation = 5.dp
-        ) {
-            Log.d("TAG", "MainScaffold: Button Clicked")
+    Scaffold(
+        topBar = {
+            WeatherMateAppBar(
+                title = "${weather.city.name}, ${weather.city.country}",
+                navController = navController,
+                onAddActionClicked = {
+                    navController.navigate(WeatherScreens.SearchScreen.name)
+                },
+                elevation = 5.dp
+            )
         }
-    }) { paddingValues ->
+    ) { paddingValues ->
         MainContent(
             data = weather,
             modifier = Modifier.padding(paddingValues),
@@ -98,12 +124,11 @@ fun MainScaffold(weather: Weather, navController: NavController, weatherAlerts: 
         )
     }
 }
+
 @Composable
 fun MainContent(data: Weather, modifier: Modifier, navController: NavController, weatherAlerts: List<String>) {
     val weatherItem = data.list[0]
     val backgroundColor = Color(0xFF4C9EF1)
-    val textColor = Color.White
-    val imageUrl = "https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}.png"
 
     Box(
         modifier = Modifier
@@ -142,7 +167,7 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
                                 fontWeight = FontWeight.SemiBold,
                                 modifier = Modifier.padding(6.dp)
                             )
-                            WeatherStateImage(imageUrl = imageUrl)
+                            WeatherStateImage(imageUrl = "https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}.png")
                             Text(
                                 text = formatDecimals(weatherItem.temp.day),
                                 style = MaterialTheme.typography.h3,
@@ -156,7 +181,7 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
                                 style = MaterialTheme.typography.caption
                             )
                             HumidityWindPressureRow(weather = weatherItem)
-                            Divider(color = Color(0xFF3A83D6), thickness = 1.dp)
+                            Divider(color = Color.White, thickness = 1.dp)
                             SunsetSunriseRow(weather = weatherItem)
                         }
                     }
@@ -170,13 +195,12 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
                 }
             }
 
-
             item {
                 Text("Today", style = MaterialTheme.typography.subtitle1, color = Color.White)
                 TodayWeatherSection(hourlyWeatherList = data.list)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("7-Day Forecast & suggested activities", style = MaterialTheme.typography.subtitle1, color = Color.White)
-                Divider(color = Color(0xFF3A83D6), thickness = 1.dp)
+                Text("7-Day Forecast", style = MaterialTheme.typography.subtitle1, color = Color.White)
+                Divider(color = Color.White, thickness = 1.dp)
             }
 
             items(data.list) { item: WeatherItem ->
