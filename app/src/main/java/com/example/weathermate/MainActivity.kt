@@ -1,8 +1,11 @@
 package com.example.weathermate
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,17 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.compose.rememberNavController
-import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.navigation.WeatherNavigation
 import com.example.weathermate.screens.favorites.FavoriteCityViewModel
 import com.example.weathermate.ui.theme.WeatherMateTheme
+import com.example.weathermate.utils.LocationUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalComposeUiApi
@@ -41,6 +41,36 @@ class MainActivity : ComponentActivity() {
             WeatherMateTheme {
                 WeatherMateApp()
             }
+        }
+
+        requestLocationPermission()
+    }
+
+    private fun requestLocationPermission() {
+        when {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
+                // Permission is granted, fetch location
+                fetchLocation()
+            }
+            else -> {
+                // Request permission
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            fetchLocation()
+        } else {
+            // Handle permission denial
+        }
+    }
+
+    private fun fetchLocation() {
+        val locationUtils = LocationUtils(this)
+        locationUtils.getLastLocation { location ->
+            // Use the location data
         }
     }
 }
@@ -72,5 +102,3 @@ fun DefaultPreview() {
         WeatherMateApp()
     }
 }
-
-

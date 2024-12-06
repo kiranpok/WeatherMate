@@ -31,6 +31,17 @@ class WeatherRepository @Inject constructor(
         return DataOrException(data = response)
     }
 
+    suspend fun getWeatherByCoordinates(latitude: Double, longitude: Double, units: String): DataOrException<Weather, Boolean, Exception> {
+        val response = try {
+            Log.d("WeatherRepository", "Requesting weather for coordinates: ($latitude, $longitude) with units: $units")
+            api.getWeatherByCoordinates(latitude, longitude, units)
+        } catch (e: Exception) {
+            Log.e("WeatherRepository", "Error fetching weather: ${e.message}")
+            return DataOrException(e = e)
+        }
+        return DataOrException(data = response)
+    }
+
     suspend fun getWeatherForecast(city: String): List<ActivityRecommendation> {
         val weatherData = getWeather(city, "metric").data ?: return emptyList()
         return weatherData.list.map { day ->
@@ -65,33 +76,24 @@ class WeatherRepository @Inject constructor(
         return result
     }
 
-
-    // Fetch weather data for a given city
     suspend fun getWeatherAndAlertsByCity(city: String, units: String): DataOrException<Weather, Boolean, Exception> {
         val dataOrException = DataOrException<Weather, Boolean, Exception>()
         try {
-            // Fetch weather data from the API
             val weatherResponse = api.getWeather(city, units, Constants.API_KEY)
             dataOrException.data = weatherResponse
-
-            // Fetch weather alerts
             val weatherAlerts = api.getWeatherAlerts(city, Constants.API_KEY)
-
-            // Iterate through each WeatherItem in the list
             weatherResponse.list.forEach { weatherItem ->
-                // Check the weather alerts for each WeatherItem's weather data
                 weatherItem.weather.forEach { weatherObject ->
-                    // This checks each WeatherObject inside the WeatherItem and processes alerts
                     val alerts = weatherAlertService.checkWeatherAlertsForList(weatherResponse.list)
-
                 }
             }
         } catch (e: Exception) {
             dataOrException.e = e
         }
-
         return dataOrException
     }
 
-
+    suspend fun getWeatherData(latitude: Double, longitude: Double): Weather {
+        return api.getWeatherByCoordinates(latitude, longitude, "metric")
+    }
 }

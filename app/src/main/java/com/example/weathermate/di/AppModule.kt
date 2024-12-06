@@ -60,13 +60,11 @@ class AppModule {
     }
 
     @Singleton
+    @Provides
     fun provideWeatherRepository(
         api: WeatherApi,
         weatherAlertService: WeatherAlertService,
     ): WeatherRepository {
         return WeatherRepository(api, weatherAlertService)
     }
-
-
-
 }

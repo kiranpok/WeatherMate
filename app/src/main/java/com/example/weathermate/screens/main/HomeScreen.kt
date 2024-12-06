@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -51,7 +50,6 @@ import com.example.weathermate.utils.formatDate
 import com.example.weathermate.utils.formatDecimals
 import com.example.weathermate.widgets.WeatherMateAppBar
 
-
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -59,18 +57,15 @@ fun HomeScreen(
     settingsViewModel: SettingsViewModel = hiltViewModel(),
     city: String?
 ) {
-    // Get the unit from settings
     val unitList by settingsViewModel.unitList.collectAsState()
     val unit = unitList.firstOrNull()?.unit?.split(" ")?.get(0)?.lowercase() ?: "metric"
 
-    // Fetch weather data for the selected city and unit
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
     ) {
         value = mainViewModel.getWeatherData(city = city.toString(), units = unit)
     }.value
 
-    // Display loading, error, or data UI
     when {
         weatherData.loading == true -> {
             Box(
@@ -81,7 +76,6 @@ fun HomeScreen(
             }
         }
         weatherData.data != null -> {
-            // Fetch weather alerts if the data is available
             val weatherAlerts = remember {
                 weatherData.data?.let {
                     mainViewModel.getWeatherAlerts(it.list)
@@ -91,7 +85,6 @@ fun HomeScreen(
             MainScaffold(weather = weatherData.data!!, navController, weatherAlerts)
         }
         else -> {
-            // Error case
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -188,7 +181,6 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
                 }
             }
 
-            // Display weather alerts
             item {
                 if (weatherAlerts.isNotEmpty()) {
                     AlertSection(alerts = weatherAlerts)
