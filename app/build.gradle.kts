@@ -122,6 +122,9 @@ dependencies {
     // lottie animation for the background
     implementation("com.airbnb.android:lottie-compose:6.0.0")
 
+// location service
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
 
 }
 
