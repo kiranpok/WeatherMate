@@ -17,31 +17,27 @@ class WeatherRepository @Inject constructor(
     private val weatherAlertService: WeatherAlertService,
 ) {
 
+    // Common function for making API calls
+    private suspend fun <T> safeApiCall(apiCall: suspend () -> T): DataOrException<T, Boolean, Exception> {
+        return try {
+            DataOrException(data = apiCall())
+        } catch (e: Exception) {
+            Log.e("WeatherRepository", "Error: ${e.message}")
+            DataOrException(e = e)
+        }
+    }
+
+    // Get current weather data by city name
     suspend fun getWeather(cityQuery: String, units: String): DataOrException<Weather, Boolean, Exception> {
-        val response = try {
-            Log.d("WeatherRepository", "Requesting weather for: $cityQuery with units: $units")
-            api.getWeather(query = cityQuery, units = units)
-        } catch (e: Exception) {
-            Log.e("WeatherRepository", "Error fetching weather: ${e.message}")
-            Log.d("REX", "getWeather: $e")
-            return DataOrException(e = e)
-        }
-        Log.d("INSIDE", "getWeather: $response")
-
-        return DataOrException(data = response)
+        return safeApiCall { api.getWeather(query = cityQuery, units = units) }
     }
 
+    // Get current weather data by coordinates
     suspend fun getWeatherByCoordinates(latitude: Double, longitude: Double, units: String): DataOrException<Weather, Boolean, Exception> {
-        val response = try {
-            Log.d("WeatherRepository", "Requesting weather for coordinates: ($latitude, $longitude) with units: $units")
-            api.getWeatherByCoordinates(latitude, longitude, units)
-        } catch (e: Exception) {
-            Log.e("WeatherRepository", "Error fetching weather: ${e.message}")
-            return DataOrException(e = e)
-        }
-        return DataOrException(data = response)
+        return safeApiCall { api.getWeatherByCoordinates(latitude, longitude, units) }
     }
 
+    // Get weather forecast and map it to activity recommendations
     suspend fun getWeatherForecast(city: String): List<ActivityRecommendation> {
         val weatherData = getWeather(city, "metric").data ?: return emptyList()
         return weatherData.list.map { day ->
@@ -60,6 +56,7 @@ class WeatherRepository @Inject constructor(
         }
     }
 
+    // Get activity recommendations based on weather forecast
     suspend fun getActivityRecommendations(city: String): DataOrException<List<ActivityRecommendation>, Boolean, Exception> {
         val result = DataOrException<List<ActivityRecommendation>, Boolean, Exception>(loading = true)
         try {
@@ -67,32 +64,36 @@ class WeatherRepository @Inject constructor(
             result.data = response
             result.loading = false
         } catch (e: Exception) {
-            Log.d("REX", "getActivityRecommendations: $e")
+            Log.e("WeatherRepository", "Error fetching activity recommendations: ${e.message}")
             result.e = e
             result.loading = false
         }
-        Log.d("INSIDE", "getActivityRecommendations: ${result.data}")
-
         return result
     }
 
+    // Get weather and alerts by city, this method is more complete now
     suspend fun getWeatherAndAlertsByCity(city: String, units: String): DataOrException<Weather, Boolean, Exception> {
         val dataOrException = DataOrException<Weather, Boolean, Exception>()
         try {
             val weatherResponse = api.getWeather(city, units, Constants.API_KEY)
             dataOrException.data = weatherResponse
             val weatherAlerts = api.getWeatherAlerts(city, Constants.API_KEY)
+
+            // Process weather alerts
             weatherResponse.list.forEach { weatherItem ->
                 weatherItem.weather.forEach { weatherObject ->
-                    val alerts = weatherAlertService.checkWeatherAlertsForList(weatherResponse.list)
+                    // Check if there are weather alerts for the current weather item
+                    weatherAlertService.checkWeatherAlertsForList(weatherResponse.list)
                 }
             }
         } catch (e: Exception) {
+            Log.e("WeatherRepository", "Error fetching weather and alerts: ${e.message}")
             dataOrException.e = e
         }
         return dataOrException
     }
 
+    // Get weather data by coordinates
     suspend fun getWeatherData(latitude: Double, longitude: Double): Weather {
         return api.getWeatherByCoordinates(latitude, longitude, "metric")
     }

@@ -58,6 +58,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.material3.android)
+
     val hiltVersion = "2.51.1"
     val composeVersion = "1.7.5"
     val roomVersion = "2.6.1"
@@ -66,7 +67,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
-    // Hilt Navigation Compose (adjust version if needed)
+    // Hilt Navigation Compose
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Coroutines
@@ -80,33 +81,28 @@ dependencies {
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
 
-    // Coil
+    // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.4.0")
 
-    // Retrofit
+    // Retrofit and OkHttp for network requests
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3") // Stable version
 
-    // OkHttp
-    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
-
-
-
-    // JSON Converter
+    // JSON Converter for Retrofit
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    // Room
+    // Room for local database
     implementation("androidx.room:room-runtime:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
 
-    // Core and UI
+    // Core and UI libraries
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
-     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.compose.ui:ui:$composeVersion")
-     implementation("androidx.compose.material:material:$composeVersion")
+    implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.4.0")
 
     // Testing dependencies
@@ -116,16 +112,15 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
-// Accompanist System UI Controller
-    implementation(libs.accompanist.systemuicontroller.v0300)
+    // Accompanist System UI Controller
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
 
-    // lottie animation for the background
+    // Lottie Animation
     implementation("com.airbnb.android:lottie-compose:6.0.0")
 
-// location service
+    // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
-
 }
 
 fun kapt(s: String) {

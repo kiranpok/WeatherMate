@@ -1,5 +1,9 @@
 package com.example.weathermate.widgets
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.location.Geocoder
+import android.location.Location
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -29,9 +33,13 @@ import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.navigation.WeatherScreens
 import com.example.weathermate.screens.favorites.FavoriteCityViewModel
 import com.example.weathermate.screens.settings.SettingsViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Locale
 
 @Composable
 fun WeatherMateAppBar(
@@ -46,9 +54,12 @@ fun WeatherMateAppBar(
     onButtonClicked: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val fusedLocationClient = remember { LocationServices.getFusedLocationProviderClient(context) } // Initialize location services
     val showDialog = remember { mutableStateOf(false) }
     val expanded = remember { mutableStateOf(false) }
+    var locationTitle by remember { mutableStateOf(title) } // Store the title for updating
 
+    // Show Settings Dialog if needed
     if (showDialog.value) {
         SettingsDropDownMenu(
             showDialog = showDialog,
@@ -60,24 +71,39 @@ fun WeatherMateAppBar(
     TopAppBar(
         modifier = Modifier.systemBarsPadding(),
         title = {
-            if (isHomeScreen)
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_location),
-                    contentDescription = "location icon",
-                    tint = Color.White,
-                    modifier = Modifier.size(20.dp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.clickable {
+                    // Fetch user location when location icon is clicked
+                    fetchUserLocation(context, fusedLocationClient) { city, country ->
+                        if (city != null && country != null) {
+                            val updatedTitle = "$city, $country"
+                            locationTitle = updatedTitle // Update title with city and country
+                            Toast.makeText(context, "Location updated to $updatedTitle", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Failed to fetch location", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            ) {
+                if (isHomeScreen)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_locate_me),
+                        contentDescription = "location icon",
+                        tint = Color.White,
+                        modifier = Modifier.size(20.dp)
+                    )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = locationTitle,
+                    color = Color.White,
+                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 )
-            Text(
-                text = title,
-                color = Color.White,
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            )
+            }
         },
         actions = {
             if (isHomeScreen) {
-                IconButton(onClick = {
-                    onAddActionClicked.invoke()
-                }) {
+                IconButton(onClick = { onAddActionClicked.invoke() }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_search),
                         contentDescription = "search icon",
@@ -123,9 +149,9 @@ fun WeatherMateAppBar(
                         .scale(0.9f)
                         .size(32.dp)
                         .clickable {
-                            val dataList = title.split(",")
+                            val dataList = locationTitle.split(",")
                             if (dataList.size < 2) {
-                                Log.e("WeatherMateAppBar", "Invalid title format: $title")
+                                Log.e("WeatherMateAppBar", "Invalid title format: $locationTitle")
                                 Toast.makeText(context, "Invalid city format", Toast.LENGTH_SHORT).show()
                                 return@clickable
                             }
@@ -167,6 +193,38 @@ fun WeatherMateAppBar(
         backgroundColor = Color(0xFF4C9EF1),
         elevation = elevation
     )
+}
+
+@SuppressLint("MissingPermission")
+private fun fetchUserLocation(
+    context: Context,
+    fusedLocationClient: FusedLocationProviderClient,
+    onLocationFetched: (city: String?, country: String?) -> Unit
+) {
+    // Fetch the user's last known location
+    fusedLocationClient.lastLocation.addOnCompleteListener { task ->
+        if (task.isSuccessful && task.result != null) {
+            val location = task.result
+            val geocoder = Geocoder(context, Locale.getDefault())
+            try {
+                val addressList = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                if (!addressList.isNullOrEmpty()) {
+                    val address = addressList[0]
+                    val city = address.locality ?: address.subAdminArea
+                    val country = address.countryName
+                    onLocationFetched(city, country) // Provide city and country to callback
+                } else {
+                    onLocationFetched(null, null) // No address found
+                }
+            } catch (e: Exception) {
+                Log.e("WeatherMateAppBar", "Geocoder failed: ${e.message}")
+                onLocationFetched(null, null)
+            }
+        } else {
+            Log.e("WeatherMateAppBar", "Failed to get location: ${task.exception}")
+            onLocationFetched(null, null)
+        }
+    }
 }
 
 @Composable
