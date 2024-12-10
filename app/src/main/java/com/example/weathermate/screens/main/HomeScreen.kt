@@ -44,6 +44,7 @@ import com.example.weathermate.data.DataOrException
 import com.example.weathermate.model.Weather
 import com.example.weathermate.model.WeatherItem
 import com.example.weathermate.navigation.WeatherScreens
+import com.example.weathermate.screens.WeatherSummaryCard
 import com.example.weathermate.screens.settings.SettingsViewModel
 import com.example.weathermate.ui.theme.WeatherBackground
 import com.example.weathermate.utils.formatDate
@@ -81,8 +82,9 @@ fun HomeScreen(
                     mainViewModel.getWeatherAlerts(it.list)
                 } ?: listOf()
             }
+            val aiInsights = mainViewModel.getAIInsights(weatherData.data!!)
 
-            MainScaffold(weather = weatherData.data!!, navController, weatherAlerts)
+            MainScaffold(weather = weatherData.data!!, navController, weatherAlerts, aiInsights)
         }
         else -> {
             Box(
@@ -94,9 +96,8 @@ fun HomeScreen(
         }
     }
 }
-
 @Composable
-fun MainScaffold(weather: Weather, navController: NavController, weatherAlerts: List<String>) {
+fun MainScaffold(weather: Weather, navController: NavController, weatherAlerts: List<String>, aiInsights: String) {
     Scaffold(
         topBar = {
             WeatherMateAppBar(
@@ -113,13 +114,14 @@ fun MainScaffold(weather: Weather, navController: NavController, weatherAlerts: 
             data = weather,
             modifier = Modifier.padding(paddingValues),
             navController = navController,
-            weatherAlerts = weatherAlerts
+            weatherAlerts = weatherAlerts,
+            aiInsights = aiInsights
         )
     }
 }
 
 @Composable
-fun MainContent(data: Weather, modifier: Modifier, navController: NavController, weatherAlerts: List<String>) {
+fun MainContent(data: Weather, modifier: Modifier, navController: NavController, weatherAlerts: List<String>, aiInsights: String) {
     val weatherItem = data.list[0]
     val backgroundColor = Color(0xFF4C9EF1)
 
@@ -182,9 +184,7 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
             }
 
             item {
-                if (weatherAlerts.isNotEmpty()) {
-                    AlertSection(alerts = weatherAlerts)
-                }
+                WeatherSummaryCard(weatherItem = weatherItem, aiInsights = aiInsights)
             }
 
             item {
@@ -201,7 +201,6 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
         }
     }
 }
-
 @Composable
 fun AlertSection(alerts: List<String>) {
     Column(

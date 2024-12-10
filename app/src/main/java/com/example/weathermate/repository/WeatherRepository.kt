@@ -2,6 +2,7 @@ package com.example.weathermate.repository
 
 import android.util.Log
 import com.example.weathermate.data.DataOrException
+import com.example.weathermate.di.WeatherAIService
 import com.example.weathermate.model.ActivityRecommendation
 import com.example.weathermate.model.Weather
 import com.example.weathermate.network.WeatherApi
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class WeatherRepository @Inject constructor(
     private val api: WeatherApi,
     private val weatherAlertService: WeatherAlertService,
+    private val weatherAIService: WeatherAIService
 ) {
 
     // Common function for making API calls
@@ -96,5 +98,10 @@ class WeatherRepository @Inject constructor(
     // Get weather data by coordinates
     suspend fun getWeatherData(latitude: Double, longitude: Double): Weather {
         return api.getWeatherByCoordinates(latitude, longitude, "metric")
+    }
+
+    // Get AI insights based on weather data
+    fun getAIInsights(weather: Weather): String {
+        return weatherAIService.generateAIInsights(weather)
     }
 }

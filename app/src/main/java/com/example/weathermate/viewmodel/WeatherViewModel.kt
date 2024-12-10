@@ -10,32 +10,21 @@ import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
 
-    // StateFlow to observe UI state
     private val _weatherState = MutableStateFlow<WeatherState>(WeatherState.Loading)
     val weatherState: StateFlow<WeatherState> = _weatherState
 
-    // Function to fetch weather data by coordinates
     fun fetchWeatherData(latitude: Double, longitude: Double) {
         viewModelScope.launch {
-            // Start by showing loading state
             _weatherState.value = WeatherState.Loading
-
-            // Call repository to get the weather data
             val result = repository.getWeatherData(latitude, longitude)
-
-            // Check if the result was successful or not
-            if (result != null) {
-                _weatherState.value = WeatherState.Success(result)
-            } else {
-                _weatherState.value = WeatherState.Error("Error fetching weather data")
-            }
+            val aiInsights = repository.getAIInsights(result)
+            _weatherState.value = WeatherState.Success(result, aiInsights)
         }
     }
 }
 
-// Sealed class to represent the different states of the UI
 sealed class WeatherState {
     object Loading : WeatherState()
-    data class Success(val weather: Weather) : WeatherState()
+    data class Success(val weather: Weather, val aiInsights: String) : WeatherState()
     data class Error(val message: String) : WeatherState()
 }
