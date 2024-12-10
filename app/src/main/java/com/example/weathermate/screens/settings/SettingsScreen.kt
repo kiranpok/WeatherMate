@@ -1,5 +1,6 @@
 package com.example.weathermate.screens.settings
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.IconToggleButton
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,82 +40,88 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun SettingsScreen(
     navController: NavController,
     settingsViewModel: SettingsViewModel = hiltViewModel(),
-
 ) {
+    // Observe the current unit from the ViewModel
     val currentUnit by settingsViewModel.unitList.collectAsState(initial = emptyList())
     val defaultUnit = currentUnit.firstOrNull()?.unit ?: "Metric (C)"
 
+    // Track the toggle state and selected unit
     var unitToggleState by remember { mutableStateOf(defaultUnit == "Imperial (F)") }
     var selectedUnit by remember { mutableStateOf(defaultUnit) }
 
+    // Main scaffold layout for the Settings screen
     Scaffold(
         topBar = {
+            // App bar for the Settings screen
             WeatherMateAppBar(
-                title = "Settings",
-                icon = painterResource(id = R.drawable.ic_back_arrow),
+                title = "Settings", // Title of the screen
+                icon = painterResource(id = R.drawable.ic_back_arrow), // Back icon
                 isHomeScreen = false,
                 navController = navController
             ) {
-                navController.popBackStack()
+                navController.popBackStack() // Navigate back on clicking the back icon
             }
         }
     ) { paddingValues ->
+        // Background container
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFF4C9EF1))
-                .padding(paddingValues)
+                .background(Color(0xFF4C9EF1)) // Light blue background
+                .padding(paddingValues) // Padding from the scaffold
         ) {
+            // Main content layout
             Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center, // Center the content vertically
+                horizontalAlignment = Alignment.CenterHorizontally, // Center content horizontally
                 modifier = Modifier.fillMaxSize()
             ) {
+                // Title text
                 Text(
                     text = "Change Units of Measurement",
-                    color = Color.White,
-                    fontSize = 22.sp,
-                    modifier = Modifier.padding(bottom = 20.dp)
+                    color = Color.White, // Changed to blue color
+                    fontSize = 22.sp, // Font size
+                    modifier = Modifier.padding(bottom = 20.dp) // Spacing below the title
                 )
 
-                IconToggleButton(
-                    checked = unitToggleState,
-                    onCheckedChange = {
-                        unitToggleState = it
-                        selectedUnit = if (it) "Imperial (F)" else "Metric (C)"
+                // Styled IconToggleButton
+                Button(
+                    onClick = {
+                        unitToggleState = !unitToggleState // Toggle the state
+                        selectedUnit = if (unitToggleState) "Imperial (°F)" else "Metric (°C)" // Update the selected unit
                     },
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White), // White background for contrast
+                    shape = RoundedCornerShape(12.dp), // Rounded corners
                     modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(Color(0xFF2196F3))
-                        .padding(8.dp)
+                        .fillMaxWidth(0.5f) // Set button width to half the screen width
+                        .padding(8.dp) // Padding around the button
                 ) {
+                    // Display the current unit
                     Text(
-                        text = if (unitToggleState) "Fahrenheit (F)" else "Celsius (C)",
-                        color = Color.White
+                        text = if (unitToggleState) "Fahrenheit (°F)" else "Celsius (°C)", // Toggle text
+                        color = Color(0xFF2196F3), // Changed to blue color for text
+                        fontSize = 16.sp // Font size
                     )
                 }
 
+                // Styled Save button
                 Button(
                     onClick = {
                         // Update the selected unit in the database
                         settingsViewModel.deleteAllUnits()
                         settingsViewModel.insertUnit(Unit(unit = selectedUnit))
-
-                        // Refresh the favorite cities with the new unit
-                        //favoriteCityViewModel.refreshFavoriteCities(selectedUnit.split(" ")[0].lowercase())
                     },
-
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White), // White background for contrast
+                    shape = RoundedCornerShape(34.dp), // Rounded corners
                     modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.CenterHorizontally),
-                    shape = RoundedCornerShape(34.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF2196F3))
+                        .padding(16.dp) // Padding around the button
+                        .align(Alignment.CenterHorizontally) // Center the button horizontally
                 ) {
+                    // Save button text
                     Text(
                         text = "Save",
-                        color = Color.White,
-                        fontSize = 17.sp
+                        color = Color(0xFF2196F3), // Changed to blue color for text
+                        fontSize = 17.sp // Font size
                     )
                 }
             }
