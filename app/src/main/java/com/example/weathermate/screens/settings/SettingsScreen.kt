@@ -79,13 +79,13 @@ fun SettingsScreen(
                     modifier = Modifier.padding(bottom = 20.dp) // Spacing below the title
                 )
 
-                // Styled IconToggleButton
+                // Styled IconToggleButton)
                 Button(
                     onClick = {
                         unitToggleState = !unitToggleState // Toggle the state
                         selectedUnit = if (unitToggleState) "Imperial (°F)" else "Metric (°C)" // Update the selected unit
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White), // White background for contrast
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF2196F3)), // blue background for contrast
                     shape = RoundedCornerShape(12.dp), // Rounded corners
                     modifier = Modifier
                         .fillMaxWidth(0.5f) // Set button width to half the screen width
@@ -94,7 +94,7 @@ fun SettingsScreen(
                     // Display the current unit
                     Text(
                         text = if (unitToggleState) "Fahrenheit (°F)" else "Celsius (°C)", // Toggle text
-                        color = Color(0xFF2196F3), // Changed to blue color for text
+                        color = Color.White, // Changed to white color for text
                         fontSize = 16.sp // Font size
                     )
                 }
