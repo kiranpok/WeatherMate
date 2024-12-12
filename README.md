@@ -44,7 +44,7 @@ TB Updated
    git clone https://github.com/kiranpok/WeatherMate.git
    ```
    ```bash
-   cd weather-mate
+   cd WeatherMate
    ```
 2. Open the project in Android Studio.
 3. Add your API key to the `local.properties` file:
