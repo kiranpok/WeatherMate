@@ -87,7 +87,7 @@ fun FeedbacksScreen(navController: NavController) {
             OutlinedButton(
                 onClick = {
                     val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-                        data = Uri.parse("mailto:APP_EMAIL_ADDRESS") // Set recipient
+                        data = Uri.parse("mailto:weathermate@gmail.com") // Set recipient
                         putExtra(Intent.EXTRA_SUBJECT, "WeatherMate Feedback") // Set email subject
                         putExtra(Intent.EXTRA_TEXT, "Hi team,\n\nHere is my feedback:\n\n") // Set email body
                     }
@@ -97,7 +97,7 @@ fun FeedbacksScreen(navController: NavController) {
                     } else {
                         val fallbackIntent = Intent(Intent.ACTION_SEND).apply {
                             type = "message/rfc822" // Use RFC822 type for email
-                            putExtra(Intent.EXTRA_EMAIL, arrayOf("APP_EMAIL_ADDRESS"))
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf("weathermate@gmail.com"))
                             putExtra(Intent.EXTRA_SUBJECT, "WeatherMate Feedback")
                             putExtra(Intent.EXTRA_TEXT, "Hi team,\n\nHere is my feedback:\n\n")
                         }
@@ -121,7 +121,7 @@ fun FeedbacksScreen(navController: NavController) {
             ) {
                 Text(
                     text = "Send feedback",
-                    fontSize = 12.sp,
+                    fontSize = 17.sp,
                     fontWeight = FontWeight.Medium
                 )
                 Spacer(modifier = Modifier.width(8.dp))
