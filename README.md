@@ -1,14 +1,18 @@
 # WeatherMate App
 
-WeatherMate is a Kotlin-based Android application that provides current weather data and a 7-day weather forecast using real-time location. It is designed with Jetpack Compose and utilizes modern Android development practices, including dependency injection with Dagger Hilt.
+## Overview
+WeatherMate is a Kotlin-based Android application that provides real-time weather data and 7-day forecasts using the OpenWeatherMap API. Designed with Jetpack Compose, the app adheres to modern Android development practices, including dependency injection with Dagger Hilt, to ensure scalability and maintainability.
 
 ## Features
-
-- **Real-time Weather**: Fetches current weather data for the user's location.
-- **7-Day Forecast**: Displays a detailed weather forecast for the next 7 days.
-- **Refresh Location**: Allows users to refresh their location and fetch updated weather data.
+- **Real-Time Weather**: Fetches current weather data for the user's location.
+- **7-Day and Hourly Forecasts**: Displays detailed weather information for the next 7 days and hourly updates.
+- **Refresh Location**: Allows users to update weather data by refreshing their location.
+- **Saved Locations**: Enables users to save and manage their favorite cities.
+- **Unit Preferences**: Switch between Celsius and Fahrenheit.
+- **Weather Alerts**: Sends notifications for significant weather changes.
+- **Activity Recommendations**: Provides personalized suggestions based on weather conditions.
 - **User-Friendly UI**: Designed using Jetpack Compose with Material 3 styling.
-- **Dependency Injection**: Powered by Dagger Hilt for better modularity and testability.
+- **Accessibility**: High-contrast design and clear labels for inclusivity.
 
 ---
 
@@ -22,31 +26,33 @@ TB Updated
 
 ---
 
+## How to Build From Source
+
 ## Prerequisites
 
-Before running this application, ensure you have the following:
+- **Android Studio Arctic Fox or later**: Download from [Android Studio](https://developer.android.com/studio).
+- **Kotlin**: Ensure Kotlin is configured in your Android Studio.
+- **OpenWeatherMap API Key**: Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/).
 
-1. Android Studio Arctic Fox or later.
-2. API key from [OpenWeatherMap](https://openweathermap.org/).
-3. A connected emulator or physical device.
 
 ---
 
 ## Setup Instructions
 
-1. Clone this repository:
+1. Clone the repository:
    ```bash
    git clone https://github.com/kiranpok/WeatherMate.git
+   ```
+   ```bash
    cd weather-mate
    ```
-
 2. Open the project in Android Studio.
-
-3. Add your OpenWeatherMap API key:
-   - Navigate to `app/src/main/java/com/example/weatherapp/BuildConfig.java` (or its Kotlin equivalent).
-   - Replace `"YOUR_API_KEY_HERE"` with your OpenWeatherMap API key.
-
-4. Sync Gradle and build the project.
+3. Add your API key to the `local.properties` file:
+   ```
+   WEATHER_API_KEY=your_api_key_here
+   ```
+4. Build the project by selecting **Build > Make Project** in Android Studio.
+5. Run the app on an emulator or connected device.
 
 ---
 
@@ -83,25 +89,22 @@ Before running this application, ensure you have the following:
 
 ## How It Works
 
-1. **Fetch Current Location**:
-   - The app uses `LocationUtils` to fetch the device's current location.
-   - Requires `ACCESS_FINE_LOCATION` permission.
-
-2. **Fetch Weather Data**:
-   - Weather data is fetched using the `WeatherRepository`, which calls the OpenWeatherMap API via `WeatherApiService`.
-
-3. **UI Rendering**:
-   - Weather data is displayed on the `WeatherScreen` using Jetpack Compose.
-   - The user can navigate to the 7-day forecast via a button.
+- **Current Location Weather**: Automatically fetches and displays weather data based on the user's real-time GPS location.
+- **Search City Weather**: Users can search for weather data of any city globally.
+- **Save Cities**: Users can save their favorite cities for quick access to weather information.
+- **Unit Changes**: The app allows switching between Celsius and Fahrenheit, and updates all displayed temperatures accordingly.
+- **Activity Recommendations**: The app provides personalized activity suggestions based on the weather conditions.
+- **Weather Alerts**: Notifies users about significant weather changes, like storms or extreme temperatures.
+- **Feedback**: Users can submit feedback directly through the app for continuous improvement.
 
 ---
 
 ## Future Improvements
 
-- Add more detailed weather insights (e.g., UV index, sunrise/sunset times).
-- Implement error handling for network and location issues.
-- Add unit tests and UI tests.
-- Support for multiple languages and units.
+- Expand the activity recommendation engine with AI-driven insights.
+- Incorporate more detailed weather parameters, such as air quality and UV index.
+- Launch on multiple platforms, including iOS.
+- Support for multiple languages.
 
 ---
 
