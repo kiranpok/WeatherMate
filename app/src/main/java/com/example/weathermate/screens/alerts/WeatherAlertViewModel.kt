@@ -32,7 +32,8 @@ class WeatherAlertViewModel @Inject constructor(
 
                 // If weather items are available, process them to generate alerts
                 if (weatherItems != null && weatherItems.isNotEmpty()) {
-                    val alerts = weatherAlertService.checkWeatherAlertsForList(weatherItems)
+                    val isCelsius = units == "metric"
+                    val alerts = weatherAlertService.checkWeatherAlertsForList(weatherItems, isCelsius)
                     if (alerts.isNotEmpty()) {
                         // If there are alerts, update the state with the alerts
                         _weatherAlerts.value = DataOrException(data = alerts)

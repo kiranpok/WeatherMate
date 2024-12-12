@@ -83,7 +83,7 @@ class WeatherRepository @Inject constructor(
             weatherResponse.list.forEach { weatherItem ->
                 weatherItem.weather.forEach { weatherObject ->
                     // Check if there are weather alerts for the current weather item
-                    weatherAlertService.checkWeatherAlertsForList(weatherResponse.list)
+                    weatherAlertService.checkWeatherAlertsForList(weatherResponse.list, units == "metric")
                 }
             }
         } catch (e: Exception) {

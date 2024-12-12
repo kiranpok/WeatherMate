@@ -22,8 +22,8 @@ class MainViewModel @Inject constructor(
     }
 
     // Function to get weather alerts
-    fun getWeatherAlerts(weatherList: List<WeatherItem>): List<String> {
-        return weatherAlertService.checkWeatherAlertsForList(weatherList)
+    fun getWeatherAlerts(weatherList: List<WeatherItem>, isCelsius: Boolean): List<String> {
+        return weatherAlertService.checkWeatherAlertsForList(weatherList, isCelsius)
     }
 
 }

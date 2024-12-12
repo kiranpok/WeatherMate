@@ -78,7 +78,7 @@ fun HomeScreen(
         weatherData.data != null -> {
             val weatherAlerts = remember {
                 weatherData.data?.let {
-                    mainViewModel.getWeatherAlerts(it.list)
+                    mainViewModel.getWeatherAlerts(it.list, unit == "metric")
                 } ?: listOf()
             }
 

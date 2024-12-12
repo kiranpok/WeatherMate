@@ -5,36 +5,69 @@ import com.example.weathermate.model.WeatherItem
 import javax.inject.Inject
 
 class WeatherAlertService @Inject constructor() {
-    private val maxTemp = 35.0 // Celsius
-    private val nightTemp = 0.0 // Celsius
-    private val minTemp = 5.0 // Celsius
+    // Define thresholds in Celsius
+    private val maxTempCelsius = 35.0
+    private val nightTempCelsius = 0.0
+    private val minTempCelsius = 5.0
     private val rainThreshold = 50.0 // mm
     private val snowThreshold = 10.0 // mm
     private val windThreshold = 50.0 // km/h
     private val humidityThreshold = 80 // %
 
+
+    // Converts Celsius to Fahrenheit
+    private fun celsiusToFahrenheit(celsius: Double): Double = (celsius * 9 / 5) + 32
+
+    // Converts Fahrenheit to Celsius
+    private fun fahrenheitToCelsius(fahrenheit: Double): Double = (fahrenheit - 32) * 5 / 9
+
+    // Determines whether to use Celsius or Fahrenheit thresholds
+    private fun getThresholds(isCelsius: Boolean): Map<String, Double> {
+        return if (isCelsius) {
+            mapOf(
+                "maxTemp" to maxTempCelsius,
+                "nightTemp" to nightTempCelsius,
+                "minTemp" to minTempCelsius
+            )
+        } else {
+            mapOf(
+                "maxTemp" to celsiusToFahrenheit(maxTempCelsius),
+                "nightTemp" to celsiusToFahrenheit(nightTempCelsius),
+                "minTemp" to celsiusToFahrenheit(minTempCelsius)
+            )
+        }
+    }
+
+
     // Checks for specific weather alerts
-    fun checkWeatherAlerts(weatherItem: WeatherItem): String {
+    fun checkWeatherAlerts(weatherItem: WeatherItem, isCelsius: Boolean): String {
+        val thresholds = getThresholds(isCelsius)
         val tempDay = weatherItem.temp.day
         val tempNight = weatherItem.temp.night
         val tempMorn = weatherItem.temp.morn
 
         // Check temperature alerts
-        if (tempDay > maxTemp) return getAlertMessage("Heat", "Daytime temperature exceeds $maxTemp°C")
-        if (tempNight < nightTemp) return getAlertMessage("Frost", "Nighttime temperature drops below $nightTemp°C")
-        if (tempMorn < minTemp) return getAlertMessage("Cold", "Morning temperature below $minTemp°C")
+        if (tempDay > thresholds["maxTemp"]!!) {
+            return getAlertMessage("Heat", "Daytime temperature exceeds ${thresholds["maxTemp"]}${if (isCelsius) "°C" else "°F"}")
+        }
+        if (tempNight < thresholds["nightTemp"]!!) {
+            return getAlertMessage("Frost", "Nighttime temperature drops below ${thresholds["nightTemp"]}${if (isCelsius) "°C" else "°F"}")
+        }
+        if (tempMorn < thresholds["minTemp"]!!) {
+            return getAlertMessage("Cold", "Morning temperature below ${thresholds["minTemp"]}${if (isCelsius) "°C" else "°F"}")
+        }
 
-        // Check rain alert (handle nullable rain value)
+        // Check rain alert
         if (weatherItem.rain?.let { it > rainThreshold } == true) {
             return "Heavy rain alert: More than $rainThreshold mm of rain!"
         }
 
-        // Check snow alert (handle nullable snow value)
+        // Check snow alert
         if (weatherItem.snow?.let { it > snowThreshold } == true) {
             return "Heavy snow alert: More than $snowThreshold mm of snow!"
         }
 
-        // Check wind alert (convert speed from m/s to km/h and compare)
+        // Check wind alert
         if (weatherItem.speed * 3.6 > windThreshold) {
             return "Wind alert: Wind speed exceeds $windThreshold km/h!"
         }
@@ -100,12 +133,12 @@ class WeatherAlertService @Inject constructor() {
 
 
     // Checks alerts for a list of weather items and removes duplicates
-    fun checkWeatherAlertsForList(weatherList: List<WeatherItem>): List<String> {
+    fun checkWeatherAlertsForList(weatherList: List<WeatherItem>, isCelsius: Boolean): List<String> {
         Log.d("WeatherAlertService", "Processing weather list: $weatherList")
 
         // Collect all alerts and filter duplicates
         return weatherList.mapNotNull { weatherItem ->
-            val alert = checkWeatherAlerts(weatherItem)
+            val alert = checkWeatherAlerts(weatherItem, isCelsius)
             if (alert != "Weather Info: Conditions seem normal.") alert else null
         }.distinct()
     }
