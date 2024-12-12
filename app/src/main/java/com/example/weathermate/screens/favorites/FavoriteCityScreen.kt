@@ -61,7 +61,7 @@ fun FavoriteCityScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .padding(contentPadding)
-                    .background(Color(0xFF4C9EF1))
+                    .background(Color(0xFF0057A0))
             ) {
                 val list = favoriteCityViewModel.favoriteList.collectAsState().value
                 LazyColumn {
@@ -131,7 +131,7 @@ fun CityRow(
                 navController.navigate(WeatherScreens.HomeScreen.name + "/${favorite.city}")
             },
         shape = CircleShape.copy(CornerSize(12.dp)),
-        color = Color(0xFF2196F3)
+        color = Color(0xFF003366)
     ) {
         Row(
             modifier = Modifier

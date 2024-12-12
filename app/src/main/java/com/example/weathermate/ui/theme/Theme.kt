@@ -18,7 +18,7 @@ private val DarkColorScheme = darkColors(
 private val LightColorScheme = lightColors(
     primary = Blue,
     secondary = PurpleGrey40,
-    background = Color( 0xFF4C9EF1) // Custom light background color
+    background = Color( 0xFF0057A0) // Custom light background color
 )
 
 @Composable
@@ -39,6 +39,9 @@ fun WeatherMateTheme(
             color = Color.Transparent, // Make system bars transparent
             darkIcons = !darkTheme // Use dark icons for light theme and vice versa
         )
+        systemUiController.setNavigationBarColor(
+            color = Color(0xFF0057A0) // Set your desired navigation bar color
+        )
     }
 
     MaterialTheme(
@@ -47,3 +50,4 @@ fun WeatherMateTheme(
         content = content
     )
 }
+

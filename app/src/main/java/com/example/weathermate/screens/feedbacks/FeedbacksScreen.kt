@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
@@ -67,7 +68,7 @@ fun FeedbacksScreen(navController: NavController) {
             Text(
                 text = "Use the Send feedback button to give us feedback on the application. The button will take you to your mobile phone’s email program.",
                 fontSize = 14.sp,
-                textAlign = TextAlign.Center, // Center-align the text content
+                textAlign = TextAlign.Justify, // Center-align the text content
                 modifier = Modifier
                     .fillMaxWidth() // Span the full width of the screen
                     .padding(horizontal = 16.dp, vertical = 8.dp) // Add padding
@@ -77,19 +78,21 @@ fun FeedbacksScreen(navController: NavController) {
             Text(
                 text = "We will process all feedback we receive but cannot guarantee a personal reply.",
                 fontSize = 14.sp,
-                textAlign = TextAlign.Center, // Center-align the text content
+                textAlign = TextAlign.Justify, // Center-align the text content
                 modifier = Modifier
                     .fillMaxWidth() // Span the full width of the screen
                     .padding(horizontal = 16.dp, vertical = 8.dp) // Add padding
             )
-
-            // Feedback button
-            OutlinedButton(
+            Spacer(modifier = Modifier.width(18.dp))
+            Button(
                 onClick = {
                     val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
                         data = Uri.parse("mailto:weathermate@gmail.com") // Set recipient
                         putExtra(Intent.EXTRA_SUBJECT, "WeatherMate Feedback") // Set email subject
-                        putExtra(Intent.EXTRA_TEXT, "Hi team,\n\nHere is my feedback:\n\n") // Set email body
+                        putExtra(
+                            Intent.EXTRA_TEXT,
+                            "Hi team,\n\nHere is my feedback:\n\n"
+                        ) // Set email body
                     }
 
                     if (emailIntent.resolveActivity(context.packageManager) != null) {
@@ -115,22 +118,26 @@ fun FeedbacksScreen(navController: NavController) {
                         }
                     }
                 },
-                border = BorderStroke(2.dp, Color.White), // Add white border to the button
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF003366)), // Navy Blue background color
                 shape = RoundedCornerShape(50), // Make the button rounded
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF2196F3))
+
             ) {
                 Text(
                     text = "Send feedback",
                     fontSize = 17.sp,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    color = Color.White // White color for text
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_outward),
                     contentDescription = "Send feedback icon",
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
+                    tint = Color.White // White color for icon
                 )
             }
+
         }
     }
 }
+

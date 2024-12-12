@@ -17,8 +17,8 @@ fun WeatherBackground(weatherCondition: String) {
         "snow" -> R.raw.lottie_snow
         "thunderstorm" -> R.raw.lottie_thunder
         "broken clouds", "cloudy" -> R.raw.lottie_cloudy
-        "clear", "sunny" -> R.raw.lottie_sunny
-        else -> R.raw.lottie_sunny // Default to sunny for unrecognized conditions
+         "sunny" -> R.raw.lottie_sunny
+        else -> R.raw.lottie_cloudy // Default to sunny for unrecognized conditions
     }
 
     // Load the Lottie composition

@@ -97,7 +97,7 @@ fun WeatherMateAppBar(
                 Text(
                     text = locationTitle,
                     color = Color.White,
-                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 26.sp)
                 )
             }
         },
@@ -148,6 +148,7 @@ fun WeatherMateAppBar(
                     modifier = Modifier
                         .scale(0.9f)
                         .size(32.dp)
+                        .height(48.dp) //added height
                         .clickable {
                             val dataList = locationTitle.split(",")
                             if (dataList.size < 2) {
@@ -190,7 +191,7 @@ fun WeatherMateAppBar(
                 )
             }
         },
-        backgroundColor = Color(0xFF4C9EF1),
+        backgroundColor = Color(0xFF0057A0),
         elevation = elevation
     )
 }
@@ -233,7 +234,7 @@ fun SettingsDropDownMenu(
     expanded: MutableState<Boolean>,
     navController: NavController
 ) {
-    val items = listOf("Alerts", "Settings", "Favorite", "Feedback")
+    val items = listOf("Settings", "Favorite", "Feedback")
 
     Column(
         modifier = Modifier
@@ -245,7 +246,7 @@ fun SettingsDropDownMenu(
             expanded = expanded.value, onDismissRequest = { expanded.value = false },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF4C9EF1))
+                .background(Color(0xFF0057A0))
         ) {
             items.forEach { text ->
                 DropdownMenuItem(onClick = {
@@ -256,7 +257,6 @@ fun SettingsDropDownMenu(
                         painter = when (text) {
                             "Favorite" -> painterResource(id = R.drawable.ic_favorite)
                             "Settings" -> painterResource(id = R.drawable.ic_settings)
-                            "Alerts" -> painterResource(id = R.drawable.ic_alerts)
                             else -> painterResource(id = R.drawable.ic_feedback)
                         },
                         contentDescription = "menu icons",
@@ -270,7 +270,6 @@ fun SettingsDropDownMenu(
                                 when (text) {
                                     "Favorite" -> WeatherScreens.FavoriteCityScreen.name
                                     "Settings" -> WeatherScreens.SettingsScreen.name
-                                    "Alerts" -> "${WeatherScreens.WeatherAlertsScreen.name}/0.0/0.0/metric"
                                     else -> WeatherScreens.FeedbacksScreen.name
                                 }
                             )
