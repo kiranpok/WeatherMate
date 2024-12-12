@@ -121,7 +121,7 @@ fun MainScaffold(weather: Weather, navController: NavController, weatherAlerts: 
 @Composable
 fun MainContent(data: Weather, modifier: Modifier, navController: NavController, weatherAlerts: List<String>) {
     val weatherItem = data.list[0]
-    val backgroundColor = Color(0xFF4C9EF1)
+    val backgroundColor = Color(0xFF0057A0)
 
     Box(
         modifier = Modifier
@@ -142,7 +142,7 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
                         .padding(4.dp)
                         .size(393.dp, 350.dp),
                     shape = RoundedCornerShape(12.dp),
-                    color = Color(0xFF2196F3),
+                    color = Color(0xFF003366),
                     elevation = 5.dp,
                     border = BorderStroke(1.dp, Color(0xFF3F51B5))
                 ) {
@@ -163,7 +163,7 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
                             WeatherStateImage(imageUrl = "https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}.png")
                             Text(
                                 text = formatDecimals(weatherItem.temp.day),
-                                style = MaterialTheme.typography.h3,
+                                style = MaterialTheme.typography.h2,
                                 fontWeight = FontWeight.ExtraBold,
                                 color = Color.White
                             )

@@ -1,6 +1,8 @@
 package com.example.weathermate.screens.settings
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,7 +64,7 @@ fun SettingsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFF4C9EF1)) // Light blue background
+
                 .padding(paddingValues) // Padding from the scaffold
         ) {
             // Main content layout
@@ -85,17 +87,21 @@ fun SettingsScreen(
                         unitToggleState = !unitToggleState // Toggle the state
                         selectedUnit = if (unitToggleState) "Imperial (°F)" else "Metric (°C)" // Update the selected unit
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF2196F3)), // blue background for contrast
-                    shape = RoundedCornerShape(12.dp), // Rounded corners
+
+                    shape = RoundedCornerShape(12.dp),
+                    border = BorderStroke(1.dp, Color.White), // Add white border to the button
                     modifier = Modifier
                         .fillMaxWidth(0.5f) // Set button width to half the screen width
                         .padding(8.dp) // Padding around the button
                 ) {
                     // Display the current unit
+
                     Text(
                         text = if (unitToggleState) "Fahrenheit (°F)" else "Celsius (°C)", // Toggle text
                         color = Color.White, // Changed to white color for text
-                        fontSize = 16.sp // Font size
+                        fontSize = 16.sp, // Font size
+
+
                     )
                 }
 
@@ -105,17 +111,17 @@ fun SettingsScreen(
                         // Update the selected unit in the database
                         settingsViewModel.deleteAllUnits()
                         settingsViewModel.insertUnit(Unit(unit = selectedUnit))
+
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White), // White background for contrast
-                    shape = RoundedCornerShape(34.dp), // Rounded corners
-                    modifier = Modifier
-                        .padding(16.dp) // Padding around the button
-                        .align(Alignment.CenterHorizontally) // Center the button horizontally
+                   // White background for contrast
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF003366)) // Navy Blue background color
+
+
                 ) {
                     // Save button text
                     Text(
                         text = "Save",
-                        color = Color(0xFF2196F3), // Changed to blue color for text
+                        color = Color(0xFFFFFFFF), // Changed to blue color for text
                         fontSize = 17.sp // Font size
                     )
                 }

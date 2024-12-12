@@ -45,7 +45,7 @@ fun SearchScreen(navController: NavController) {
         }
     }) { paddingValues ->
         Surface(
-            color = Color(0xFF4C9EF1),
+            color = Color(0xFF0057A0),
             modifier = Modifier.fillMaxSize()
         ) {
 

@@ -59,7 +59,7 @@ fun TodayWeatherSection(hourlyWeatherList: List<WeatherItem>) {
             Column(
                 modifier = Modifier
                     .wrapContentHeight()
-                    .background(Color(0xFF48A1FF), shape = RoundedCornerShape(12.dp)),
+                    .background(Color(0xFF003366), shape = RoundedCornerShape(12.dp)),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

@@ -8,7 +8,5 @@ enum class WeatherScreens {
     FavoriteCityScreen,
     SettingsScreen,
     FeedbacksScreen,
-    WeatherAlertsScreen,
-    NotificationScreen,
-    ActivityRecommendationScreen
+
 }
