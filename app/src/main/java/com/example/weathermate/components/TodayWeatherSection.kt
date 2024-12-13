@@ -1,6 +1,5 @@
 package com.example.weathermate.components
 
-import WeatherStateImage
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow

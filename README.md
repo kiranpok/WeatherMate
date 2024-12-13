@@ -19,13 +19,27 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ## Screenshots
 
 ### Home Screen
-TB Updated
+![Home Screen](screenshots/home_screen.png)
 
 ### 7-Day Forecast
-TB Updated
+![7-Day Forecast](screenshots/7day_forecast_screen.png)
+
+### Drop Down Menu
+![Drop Down Menu](screenshots/drop_downn_menu.png)
+
+### Favorites City Screen
+![Favorites City Screen](screenshots/favorites_city_screen.png)
+
+### Feedback Screen
+![Feedback Screen](screenshots/feedback_screen.png)
+
+### Setting Screen
+![Setting Screen](screenshots/setting_screen.png)
+
+### Splash Screen
+![Splash Screen](screenshots/splash_screen.png)
 
 ---
-
 ## How to Build From Source
 
 ## Prerequisites
@@ -57,7 +71,45 @@ TB Updated
 ---
 
 ## File Structure
-
+weathermate/
+├── MainActivity.kt                // Entry point for the app
+├── navigation/
+│   └── WeatherNavigation.kt       // Handles app navigation
+├── screens/
+│   ├── favorites/
+│   │   └── FavoriteCityViewModel.kt  // ViewModel for managing favorite cities
+│   ├── main/
+│   │   └── MainViewModel.kt          // ViewModel for main screen
+│   ├── seven_day_forecast/
+│   │   └── SevenDayForecastScreen.kt // Composable for 7-day forecast screen
+│   ├── drop_downn_menu/
+│   │   └── DropDownMenuScreen.kt     // Composable for drop-down menu screen
+│   ├── favorites_city_screen/
+│   │   └── FavoritesCityScreen.kt    // Composable for favorite city screen
+│   ├── feedback_screen/
+│   │   └── FeedbackScreen.kt         // Composable for feedback screen
+│   ├── home_screen/
+│   │   └── HomeScreen.kt             // Composable for home screen
+│   ├── setting_screen/
+│   │   └── SettingScreen.kt          // Composable for settings screen
+│   └── splash_screen/
+│       └── SplashScreen.kt           // Composable for splash screen
+├── ui/
+│   └── theme/
+│       └── WeatherMateTheme.kt       // Theme definitions for the app
+├── utils/
+│   └── LocationUtils.kt              // Utility functions for location services
+├── di/
+│   └── AppModule.kt                  // Dagger Hilt module for dependency injection
+├── network/
+│   ├── WeatherApiService.kt          // Retrofit service interface for weather API
+│   └── RetrofitClient.kt             // Singleton for initializing Retrofit
+├── model/
+│   ├── Weather.kt                    // Data model for weather data
+│   ├── City.kt                       // Data model for city information
+│   └── WeatherItem.kt                // Data model for a single weather forecast entry
+└── repository/
+    └── WeatherRepository.kt          // Repository for handling API calls
 ### Core Components
 - **MainActivity.kt**: Entry point for the app. Handles navigation using Jetpack Navigation.
 - **WeatherScreen.kt**: Displays current weather data and navigation options.

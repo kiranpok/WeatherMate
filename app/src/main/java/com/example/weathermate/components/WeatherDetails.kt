@@ -1,3 +1,5 @@
+package com.example.weathermate.components
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -27,7 +29,8 @@ fun SunsetSunriseRow(weather: WeatherItem) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row() {
+        // Sunrise section
+        Row {
             Image(
                 painter = painterResource(id = R.drawable.ic_sunrise),
                 contentDescription = "sunrise icon",
@@ -40,7 +43,8 @@ fun SunsetSunriseRow(weather: WeatherItem) {
                 modifier = Modifier.padding(4.dp)
             )
         }
-        Row() {
+        // Sunset section
+        Row {
             Text(
                 text = formatDateTime(weather.sunset),
                 style = typography.caption,
@@ -52,9 +56,7 @@ fun SunsetSunriseRow(weather: WeatherItem) {
                 contentDescription = "sunset icon",
                 modifier = Modifier.size(30.dp)
             )
-
         }
-
     }
 }
 
@@ -67,6 +69,7 @@ fun HumidityWindPressureRow(weather: WeatherItem) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        // Humidity section
         Row(modifier = Modifier.padding(4.dp)) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_humidity),
@@ -80,9 +83,9 @@ fun HumidityWindPressureRow(weather: WeatherItem) {
                 color = Color.White,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
-
         }
-        Row() {
+        // Wind speed section
+        Row {
             Icon(
                 painter = painterResource(id = R.drawable.ic_windspeed),
                 contentDescription = "wind icon",
@@ -94,12 +97,10 @@ fun HumidityWindPressureRow(weather: WeatherItem) {
                 style = typography.body1,
                 color = Color.White,
                 modifier = Modifier.align(Alignment.CenterVertically)
-
             )
-
         }
-        Row() {
-
+        // Pressure section
+        Row {
             Icon(
                 painter = painterResource(id = R.drawable.ic_precitipation),
                 contentDescription = "pressure icon",
@@ -113,15 +114,14 @@ fun HumidityWindPressureRow(weather: WeatherItem) {
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
         }
-
-
     }
 }
 
 @Composable
 fun WeatherStateImage(imageUrl: String) {
     Image(
-        painter = rememberAsyncImagePainter(imageUrl), contentDescription = "weather icon",
+        painter = rememberAsyncImagePainter(imageUrl),
+        contentDescription = "weather icon",
         modifier = Modifier.size(70.dp)
     )
 }

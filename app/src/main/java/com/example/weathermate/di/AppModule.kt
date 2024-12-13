@@ -22,12 +22,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AppModule {
 
+    // Provides the WeatherDao instance
     @Singleton
     @Provides
     fun provideWeatherDao(weatherDatabase: WeatherDatabase): WeatherDao {
         return weatherDatabase.weatherDao()
     }
 
+    // Provides the WeatherDatabase instance
     @Singleton
     @Provides
     fun provideAppDatabase(@ApplicationContext context: Context): WeatherDatabase {
@@ -43,6 +45,7 @@ class AppModule {
             .build()
     }
 
+    // Provides the WeatherApi instance
     @Singleton
     @Provides
     fun provideOpenWeatherApi(): WeatherApi {
@@ -53,12 +56,14 @@ class AppModule {
             .create(WeatherApi::class.java)
     }
 
+    // Provides the WeatherAlertService instance
     @Singleton
     @Provides
     fun provideWeatherAlertService(): WeatherAlertService {
         return WeatherAlertService()
     }
 
+    // Provides the WeatherRepository instance
     @Singleton
     @Provides
     fun provideWeatherRepository(
