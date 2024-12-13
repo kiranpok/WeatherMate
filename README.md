@@ -19,7 +19,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ## Screenshots
 
 ### Home Screen
-![Home Screen](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/home_screen.png)
+![Home Screen](https://github.com/kiranpok/WeatherMate/screenshots/home_screen.png)
 
 ### 7-Day Forecast
 ![7-Day Forecast](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/7day_forecast_screen.png)
