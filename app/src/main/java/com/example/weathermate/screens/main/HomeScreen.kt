@@ -1,11 +1,8 @@
 package com.example.weathermate.screens.main
 
 import HumidityWindPressureRow
-import NextWeekWeatherSection
 import SunsetSunriseRow
-import TodayWeatherSection
 import WeatherStateImage
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.weathermate.components.NextWeekWeatherSection
+import com.example.weathermate.components.TodayWeatherSection
 import com.example.weathermate.data.DataOrException
 import com.example.weathermate.model.Weather
 import com.example.weathermate.model.WeatherItem
@@ -48,7 +47,7 @@ import com.example.weathermate.screens.settings.SettingsViewModel
 import com.example.weathermate.ui.theme.WeatherBackground
 import com.example.weathermate.utils.formatDate
 import com.example.weathermate.utils.formatDecimals
-import com.example.weathermate.widgets.WeatherMateAppBar
+import com.example.weathermate.components.navbar.WeatherMateAppBar
 
 @Composable
 fun HomeScreen(

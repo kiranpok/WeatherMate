@@ -21,14 +21,13 @@ import androidx.navigation.NavController
 import com.example.weathermate.R
 import com.example.weathermate.model.FavoriteCity
 import com.example.weathermate.navigation.WeatherScreens
-import com.example.weathermate.widgets.WeatherMateAppBar
+import com.example.weathermate.components.navbar.WeatherMateAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.layout.ContentScale
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.example.weathermate.screens.settings.SettingsViewModel
 
 // display Favorite City Screen
 @OptIn(ExperimentalMaterialApi::class)

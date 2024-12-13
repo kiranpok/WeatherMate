@@ -1,9 +1,8 @@
-package com.example.weathermate.widgets
+package com.example.weathermate.components.navbar
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Geocoder
-import android.location.Location
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -35,7 +34,6 @@ import com.example.weathermate.screens.favorites.FavoriteCityViewModel
 import com.example.weathermate.screens.settings.SettingsViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
