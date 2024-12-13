@@ -25,7 +25,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ![7-Day Forecast](screenshots/7day_forecast_screen.png)
 
 ### Drop Down Menu
-![Drop Down Menu](screenshots/drop_downn_menu.png)
+![Drop Down Menu](screenshots/drop_down_menu.png)
 
 ### Favorites City Screen
 ![Favorites City Screen](screenshots/favorites_city_screen.png)
