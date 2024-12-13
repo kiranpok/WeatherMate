@@ -39,6 +39,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ### Splash Screen
 ![Splash Screen](screenshots/splash_screen.png)
 
+
 ---
 ## How to Build From Source
 
