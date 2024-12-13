@@ -1,11 +1,6 @@
 package com.example.weathermate.screens.main
 
-import HumidityWindPressureRow
-import NextWeekWeatherSection
-import SunsetSunriseRow
-import TodayWeatherSection
-import WeatherStateImage
-import android.util.Log
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.weathermate.components.HumidityWindPressureRow
+import com.example.weathermate.components.NextWeekWeatherSection
+import com.example.weathermate.components.SunsetSunriseRow
+import com.example.weathermate.components.TodayWeatherSection
+import com.example.weathermate.components.WeatherStateImage
 import com.example.weathermate.data.DataOrException
 import com.example.weathermate.model.Weather
 import com.example.weathermate.model.WeatherItem
@@ -48,7 +48,7 @@ import com.example.weathermate.screens.settings.SettingsViewModel
 import com.example.weathermate.ui.theme.WeatherBackground
 import com.example.weathermate.utils.formatDate
 import com.example.weathermate.utils.formatDecimals
-import com.example.weathermate.widgets.WeatherMateAppBar
+import com.example.weathermate.components.navbar.WeatherMateAppBar
 
 @Composable
 fun HomeScreen(
@@ -57,15 +57,17 @@ fun HomeScreen(
     settingsViewModel: SettingsViewModel = hiltViewModel(),
     city: String?
 ) {
+    //Collect the unit from the settings view model
     val unitList by settingsViewModel.unitList.collectAsState()
+    //Get the unit from the list(metric or imperial) from the unit and set the default to metric
     val unit = unitList.firstOrNull()?.unit?.split(" ")?.get(0)?.lowercase() ?: "metric"
-
+    //Provide state for weather data
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
     ) {
         value = mainViewModel.getWeatherData(city = city.toString(), units = unit)
     }.value
-
+    // Display the loading indicator, weather data, or error message
     when {
         weatherData.loading == true -> {
             Box(
@@ -76,6 +78,7 @@ fun HomeScreen(
             }
         }
         weatherData.data != null -> {
+            // Get the weather alerts if data is available
             val weatherAlerts = remember {
                 weatherData.data?.let {
                     mainViewModel.getWeatherAlerts(it.list, unit == "metric")
@@ -192,7 +195,7 @@ fun MainContent(data: Weather, modifier: Modifier, navController: NavController,
                 TodayWeatherSection(hourlyWeatherList = data.list)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text("7-Day Forecast", style = MaterialTheme.typography.subtitle1, color = Color.White)
-                Divider(color = Color.White, thickness = 1.dp)
+                Divider(color = Color.White, thickness = 0.2.dp)
             }
 
             items(data.list) { item: WeatherItem ->

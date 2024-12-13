@@ -1,8 +1,6 @@
 package com.example.weathermate.screens.settings
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.weathermate.R
 import com.example.weathermate.model.Unit
-import com.example.weathermate.widgets.WeatherMateAppBar
+import com.example.weathermate.components.navbar.WeatherMateAppBar
 import androidx.hilt.navigation.compose.hiltViewModel
 
 

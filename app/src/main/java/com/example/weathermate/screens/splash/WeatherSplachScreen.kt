@@ -37,10 +37,11 @@ import kotlinx.coroutines.delay
 @Composable
 fun WeatherSplashScreen(navController: NavController) {
     val defaultCity = "Espoo"
+    //Remember the scale animation state
     val scale = remember {
         Animatable(0f)
     }
-
+    // Launch the scale animation and navigate to the HomeScreen
     LaunchedEffect(key1 = true, block = {
         scale.animateTo(
             targetValue = 0.9f,
@@ -54,6 +55,7 @@ fun WeatherSplashScreen(navController: NavController) {
         delay(2000L)
         navController.navigate(WeatherScreens.HomeScreen.name + "/$defaultCity")
     })
+    // Box to hold the splash screen content
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -61,6 +63,7 @@ fun WeatherSplashScreen(navController: NavController) {
             .systemBarsPadding()
             .navigationBarsPadding()
     ) {
+        // Column to center the logo
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,

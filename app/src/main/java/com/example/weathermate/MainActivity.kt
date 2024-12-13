@@ -37,29 +37,31 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        // Set the window to fit system windows (e.g., display cutouts, status bar)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
+        // Set the content for the activity
         setContent {
             WeatherMateTheme {
                 WeatherMateApp(cityName, isLocationFetched)
             }
         }
-
+        // Request location permission
         requestLocationPermission()
     }
 
     private fun requestLocationPermission() {
         when {
+            // Check if the permission is already granted
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
                 fetchLocation()
             }
             else -> {
+                // Request location permission
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
     }
-
+    //Launcher for requesting location permission
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted) {
             fetchLocation()

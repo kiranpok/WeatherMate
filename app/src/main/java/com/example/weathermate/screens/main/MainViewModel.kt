@@ -16,12 +16,12 @@ class MainViewModel @Inject constructor(
     private val weatherAlertService: WeatherAlertService
 
     ) : ViewModel() {
-
+    // Function to get weather data for a given city units in metric or imperial
     suspend fun getWeatherData(city: String, units: String): DataOrException<Weather, Boolean, Exception> {
         return repository.getWeather(cityQuery = city, units = units)
     }
 
-    // Function to get weather alerts
+    // Function to get weather alerts based on the weather list and the unit type
     fun getWeatherAlerts(weatherList: List<WeatherItem>, isCelsius: Boolean): List<String> {
         return weatherAlertService.checkWeatherAlertsForList(weatherList, isCelsius)
     }

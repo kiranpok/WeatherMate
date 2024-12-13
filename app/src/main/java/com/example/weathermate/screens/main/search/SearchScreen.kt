@@ -1,5 +1,3 @@
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -23,7 +20,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.navigation.NavController
 import com.example.weathermate.R
-import com.example.weathermate.widgets.WeatherMateAppBar
+import com.example.weathermate.components.navbar.WeatherMateAppBar
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -41,14 +38,13 @@ fun SearchScreen(navController: NavController) {
             icon = painterResource(id = R.drawable.ic_back_arrow),
             isHomeScreen = false,
         ) {
-            navController.popBackStack()
+            navController.popBackStack() // Navigate back when the back arrow is clicked
         }
     }) { paddingValues ->
         Surface(
             color = Color(0xFF0057A0),
             modifier = Modifier.fillMaxSize()
         ) {
-
             Column(
                 modifier = Modifier
                     .padding(paddingValues = paddingValues)
@@ -59,39 +55,36 @@ fun SearchScreen(navController: NavController) {
                 SearchBar(modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .align(Alignment.CenterHorizontally)) {mCity ->
-                    navController.navigate(WeatherScreens.HomeScreen.name  + "/$mCity")// add city name here
+                    .align(Alignment.CenterHorizontally)) { mCity ->
+                    navController.navigate(WeatherScreens.HomeScreen.name + "/$mCity") // Navigate to HomeScreen with city name
                 }
             }
         }
     }
 }
 
-
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    onSearch: (String) -> Unit) {
-    val searchQueryState = rememberSaveable { mutableStateOf("") }
+    onSearch: (String) -> Unit
+) {
+    val searchQueryState = rememberSaveable { mutableStateOf("") } // State to hold the search query
     val keyboardController = LocalSoftwareKeyboardController.current
     val valid = remember(searchQueryState.value) {
-        searchQueryState.value.trim().isNotEmpty()
+        searchQueryState.value.trim().isNotEmpty() // Check if the search query is not empty
     }
 
     Column {
         CommonTextField(
             valueState = searchQueryState,
             placeholder = "City name",
-            onAction = KeyboardActions { onSearch(searchQueryState.value)
-                if(!valid) return@KeyboardActions
-                onSearch(searchQueryState.value.trim())
-                searchQueryState.value = ""
-                keyboardController?.hide()
-
-
-
-            })
-
+            onAction = KeyboardActions {
+                if (!valid) return@KeyboardActions // If the query is not valid, do nothing
+                onSearch(searchQueryState.value.trim()) // Trigger the search with the trimmed query
+                searchQueryState.value = "" // Clear the search query
+                keyboardController?.hide() // Hide the keyboard
+            }
+        )
     }
 }
 
@@ -105,8 +98,8 @@ fun CommonTextField(
 ) {
     OutlinedTextField(
         value = valueState.value,
-        onValueChange = { valueState.value = it },
-        label = { Text(text = placeholder, color = Color.White) },
+        onValueChange = { valueState.value = it }, // Update the state with the new value
+        label = { Text(text = placeholder, color = Color.White) }, // Placeholder text
         maxLines = 1,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
@@ -115,11 +108,11 @@ fun CommonTextField(
             focusedBorderColor = Color.White,
             unfocusedBorderColor = Color.White,
             textColor = Color.White,
-            cursorColor = Color.White),
+            cursorColor = Color.White
+        ),
         shape = RoundedCornerShape(15.dp),
-        modifier = Modifier.fillMaxWidth().padding(8.dp
-
-        )
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
     )
-
 }
