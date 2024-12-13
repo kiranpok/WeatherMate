@@ -19,25 +19,26 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ## Screenshots
 
 ### Home Screen
-![Home Screen](screenshots/home_screen.png)
+![Home Screen](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/home_screen.png)
 
 ### 7-Day Forecast
-![7-Day Forecast](screenshots/7day_forecast_screen.png)
+![7-Day Forecast](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/7day_forecast_screen.png)
 
 ### Drop Down Menu
-![Drop Down Menu](screenshots/drop_down_menu.png)
+![Drop Down Menu](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/drop_down_menu.png)
 
 ### Favorites City Screen
-![Favorites City Screen](screenshots/favorites_city_screen.png)
+![Favorites City Screen](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/favorites_city_screen.png)
 
 ### Feedback Screen
-![Feedback Screen](screenshots/feedback_screen.png)
+![Feedback Screen](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/feedback_screen.png)
 
 ### Setting Screen
-![Setting Screen](screenshots/setting_screen.png)
+![Setting Screen](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/setting_screen.png)
 
 ### Splash Screen
-![Splash Screen](screenshots/splash_screen.png)
+![Splash Screen](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/splash_screen.png)
+
 
 
 ---
@@ -74,7 +75,9 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 
 ### Project Structure
-![Project Structure](screenshots/project_structure.png)
+![Project Structure](https://github.com/kiranpok/WeatherMate/blob/main/screenshots/project_structure.png)
+
+
 ### Core Components
 - **MainActivity.kt**: Entry point for the app. Handles navigation using Jetpack Navigation.
 - **WeatherScreen.kt**: Displays current weather data and navigation options.
