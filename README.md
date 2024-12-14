@@ -1,4 +1,10 @@
-# WeatherMate App
+# WeatherMate App  
+
+![Platform](https://img.shields.io/badge/Platform-Android-green)  
+![Language](https://img.shields.io/badge/Language-Kotlin-blueviolet)  
+![Jetpack Compose](https://img.shields.io/badge/Jetpack_Compose-%E2%9D%A4-red)  
+![License](https://img.shields.io/badge/License-MIT-yellowgreen)  
+![Build Status](https://img.shields.io/badge/Build-Stable-brightgreen)  
 
 <a name="top"></a>
 
@@ -13,56 +19,59 @@
   - [Core Components](#core-components)
   - [Network](#network)
   - [Model](#model)
-- [Tech Stack used](#tech-stack-used)
+- [Tech Stack Used](#tech-stack-used)
   - [Dependencies](#dependencies)
   - [Plugins](#plugins)
 - [How It Works](#how-it-works)
 - [Future Improvements](#future-improvements)
 - [License](#license)
 
-## Overview
+---
+
+## Overview  
 WeatherMate is a Kotlin-based Android application that provides real-time weather data and 7-day forecasts using the OpenWeatherMap API. Designed with Jetpack Compose, the app adheres to modern Android development practices, including dependency injection with Dagger Hilt, to ensure scalability and maintainability.
 
+---
 
-## Features
-- **Real-Time Weather**: Fetches current weather data for the user's location.
-- **7-Day and Hourly Forecasts**: Displays detailed weather information for the next 7 days and hourly updates.
-- **Refresh Location**: Allows users to update weather data by refreshing their location.
-- **Saved Locations**: Enables users to save and manage their favorite cities.
-- **Unit Preferences**: Switch between Celsius and Fahrenheit.
-- **Weather Alerts**: Sends notifications for significant weather changes.
-- **Activity Recommendations**: Provides personalized suggestions based on weather conditions.
-- **User-Friendly UI**: Designed using Jetpack Compose with Material 3 styling.
-- **Accessibility**: High-contrast design and clear labels for inclusivity.
+## Features  
+- **Real-Time Weather**: Fetches current weather data for the user's location.  
+- **7-Day and Hourly Forecasts**: Displays detailed weather information for the next 7 days and hourly updates.  
+- **Refresh Location**: Allows users to update weather data by refreshing their location.  
+- **Saved Locations**: Enables users to save and manage their favorite cities.  
+- **Unit Preferences**: Switch between Celsius and Fahrenheit.  
+- **Weather Alerts**: Sends notifications for significant weather changes.  
+- **Activity Recommendations**: Provides personalized suggestions based on weather conditions.  
+- **User-Friendly UI**: Designed using Jetpack Compose with Material 3 styling.  
+- **Accessibility**: High-contrast design and clear labels for inclusivity.  
 
+---
 
-## Screenshots
+## Screenshots  
 
-| Splash Screen | Home Screen | 7-Day Forecast | Drop Down Menu |
-|---------------|-------------|----------------|----------------|
+| Splash Screen           | Home Screen            | 7-Day Forecast         | Drop Down Menu         |
+|--------------------------|------------------------|-------------------------|------------------------|
 | ![Splash Screen](assets/screenshots/splash_screen.png) | ![Home Screen](assets/screenshots/home_screen.png) | ![7-Day Forecast](assets/screenshots/7day_forecast_screen.png) | ![Drop Down Menu](assets/screenshots/drop_down_menu.png) |
 
-| Favorites City Screen | Feedback Screen | Setting Screen |
-|-----------------------|-----------------|----------------|
+| Favorites City Screen   | Feedback Screen        | Setting Screen         |
+|--------------------------|------------------------|-------------------------|
 | ![Favorites City Screen](assets/screenshots/favorites_city_screen.png) | ![Feedback Screen](assets/screenshots/feedback_screen.png) | ![Setting Screen](assets/screenshots/setting_screen.png) |
 
 [↑ Back to top](#top)
 
-## How to Build From Source
+---
 
-## Prerequisites
+## How to Build From Source  
 
-- **Android Studio Arctic Fox or later**: Download from [Android Studio](https://developer.android.com/studio).
-- **Kotlin**: Ensure Kotlin is configured in your Android Studio.
-- **OpenWeatherMap API Key**: Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/).
+### Prerequisites  
+- **Android Studio Arctic Fox or later**: Download from [Android Studio](https://developer.android.com/studio).  
+- **Kotlin**: Ensure Kotlin is configured in your Android Studio.  
+- **OpenWeatherMap API Key**: Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/).  
 
-
-
-## Setup Instructions
-
-1. Clone the repository:
+### Setup Instructions  
+1. Clone the repository:  
    ```bash
    git clone https://github.com/kiranpok/WeatherMate.git
+
 
    # Weather App
 
