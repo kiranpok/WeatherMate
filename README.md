@@ -1,5 +1,22 @@
 # WeatherMate App
 
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [How to Build From Source](#how-to-build-from-source)
+  - [Prerequisites](#prerequisites)
+  - [Setup Instructions](#setup-instructions)
+- [Project Structure](#project-structure)
+  - [Core Components](#core-components)
+  - [Network](#network)
+  - [Model](#model)
+- [Tech Stack used](#tech-stack-used)
+  - [Dependencies](#dependencies)
+  - [Plugins](#plugins)
+- [How It Works](#how-it-works)
+- [Future Improvements](#future-improvements)
+- [License](#license)
 ## Overview
 WeatherMate is a Kotlin-based Android application that provides real-time weather data and 7-day forecasts using the OpenWeatherMap API. Designed with Jetpack Compose, the app adheres to modern Android development practices, including dependency injection with Dagger Hilt, to ensure scalability and maintainability.
 
