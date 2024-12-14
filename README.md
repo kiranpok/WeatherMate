@@ -169,7 +169,7 @@ We welcome contributions! Follow the steps below to set up your development envi
    Download Android Studio from [here](https://developer.android.com/studio) and follow the installation instructions for your platform.
 
 2. **Important**:  
-   The app targets **Android API level 3%**. Ensure your device or emulator meets the required version to avoid issues.
+   The app targets **Android API level 33**. Ensure your device or emulator meets the required version to avoid issues.
 
 ## Getting the Code
 
