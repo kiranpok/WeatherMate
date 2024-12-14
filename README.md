@@ -159,15 +159,56 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 - Incorporate more detailed weather parameters, such as air quality and UV index.
 - Launch on multiple platforms, including iOS.
 - Add support for multiple languages.
-## Contributing
+# Contributing
 
-In order to start working on this project you will need Android Studio. Download it from [here](https://developer.android.com/studio). Set up Android Studio. For Windows, you can follow this [guide](https://developer.android.com/studio/install).
+We welcome contributions! Follow the steps below to set up your development environment and contribute to the project.
 
-Download this project as .zip and extract or clone it using this command:
-```bash
-git clone git@github.com:A-Yerkeshev/android-project.git
+## Prerequisites
 
-[↑ Back to top](#top)
+1. **Install Android Studio**:  
+   Download Android Studio from [here](https://developer.android.com/studio) and follow the installation instructions for your platform.
+
+2. **Important**:  
+   The app targets **Android API level 3%**. Ensure your device or emulator meets the required version to avoid issues.
+
+## Getting the Code
+
+You can get the project in one of two ways:
+
+- **Clone the repository**:
+  ```bash
+  git clone git@github.com:A-Yerkeshev/android-project.git
+
+## Download the ZIP
+
+Alternatively, you can download the project directly from the [GitHub repository](https://github.com/A-Yerkeshev/android-project) and extract it to your local machine.
+
+## How to Contribute
+
+We welcome contributions! Follow these steps to contribute to the project:
+
+### 1. Fork the Repository
+
+Create a personal copy of the project by forking the repository.
+
+### 2. Create a New Branch
+
+Name the branch based on the changes you're making.
+
+### 3. Make Your Changes
+
+Work on your changes locally and test them thoroughly.
+
+### 4. Submit a Pull Request
+
+Push your branch and create a pull request in the original repository. Provide a clear description of your changes in the PR.
+
+## Code Style
+
+- Follow the project’s coding style and best practices.
+- Ensure that your code is well-documented with necessary comments.
+
 ## License
+[↑ Back to top](#top)
+By contributing, you agree that your contributions will be licensed under the **MIT License**. See the `LICENSE` file for details.
 
-This project is licensed under the **MIT License**. See the `LICENSE` file for details.
