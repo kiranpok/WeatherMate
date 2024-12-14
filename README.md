@@ -1,5 +1,5 @@
 # WeatherMate App
-
+<a name="top"></a>
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
@@ -19,7 +19,7 @@
 - [License](#license)
 ## Overview
 WeatherMate is a Kotlin-based Android application that provides real-time weather data and 7-day forecasts using the OpenWeatherMap API. Designed with Jetpack Compose, the app adheres to modern Android development practices, including dependency injection with Dagger Hilt, to ensure scalability and maintainability.
-
+[Back to top](#top)
 ## Features
 - **Real-Time Weather**: Fetches current weather data for the user's location.
 - **7-Day and Hourly Forecasts**: Displays detailed weather information for the next 7 days and hourly updates.
@@ -32,7 +32,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 - **Accessibility**: High-contrast design and clear labels for inclusivity.
 
 ---
-
+[Back to top](#top)
 
 
 ## Screenshots
@@ -99,7 +99,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 - **WeatherItem.kt**: Represents a single weather forecast entry.
 
 ---
-
+[Back to top](#top)
 ### Tech Stack used
 ## Dependencies
 
@@ -135,7 +135,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 | [**Hilt Android Plugin**](https://dagger.dev/hilt/)                         | Simplifies dependency injection setup in Android projects                                             |
 
 ---
-
+[Back to top](#top)
 ## How It Works
 
 - **Current Location Weather**: Automatically fetches and displays weather data based on the user's real-time GPS location.
@@ -156,7 +156,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 - Support for multiple languages.
 
 ---
-<a name="top"></a>
+[Back to top](#top)
 ## License
 
 This project is licensed under the MIT License. See `LICENSE` for details.
