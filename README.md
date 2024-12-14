@@ -190,36 +190,14 @@ You can get the project in one of two ways:
 
 - **Clone the repository**:
   ```bash
-  git clone git@github.com:A-Yerkeshev/android-project.git
+  git clone git@https://github.com/kiranpok/WeatherMate.git
 
 ## Download the ZIP
 
 Alternatively, you can download the project directly from the [GitHub repository](https://github.com/kiranpok/WeatherMate.git). and extract it to your local machine.
 
-## How to Contribute
 
-We welcome contributions! Follow these steps to contribute to the project:
 
-### 1. Fork the Repository
-
-Create a personal copy of the project by forking the repository.
-
-### 2. Create a New Branch
-
-Name the branch based on the changes you're making.
-
-### 3. Make Your Changes
-
-Work on your changes locally and test them thoroughly.
-
-### 4. Submit a Pull Request
-
-Push your branch and create a pull request in the original repository. Provide a clear description of your changes in the PR.
-
-## Code Style
-
-- Follow the project’s coding style and best practices.
-- Ensure that your code is well-documented with necessary comments.
   
   
 [↑ Back to top](#top)
@@ -228,5 +206,4 @@ Push your branch and create a pull request in the original repository. Provide a
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the **MIT License**. See the `LICENSE` file for details.
-
+This project is licensed under the MIT License. By contributing, you agree that your contributions will be licensed under the MIT License. See the LICENSE file for details.
