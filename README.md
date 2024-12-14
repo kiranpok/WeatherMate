@@ -24,7 +24,6 @@
 WeatherMate is a Kotlin-based Android application that provides real-time weather data and 7-day forecasts using the OpenWeatherMap API. Designed with Jetpack Compose, the app adheres to modern Android development practices, including dependency injection with Dagger Hilt, to ensure scalability and maintainability.
 
 
-
 ## Features
 - **Real-Time Weather**: Fetches current weather data for the user's location.
 - **7-Day and Hourly Forecasts**: Displays detailed weather information for the next 7 days and hourly updates.
@@ -47,7 +46,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 |-----------------------|-----------------|----------------|
 | ![Favorites City Screen](assets/screenshots/favorites_city_screen.png) | ![Feedback Screen](assets/screenshots/feedback_screen.png) | ![Setting Screen](assets/screenshots/setting_screen.png) |
 
-[↑](#top)
+[↑ Back to top](#top)
 
 ## How to Build From Source
 
@@ -68,7 +67,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
    # Weather App
 
 ## Getting Started
-
+[↑ Back to top](#top)
 ### Steps to Run the App
 1. Open the project in **Android Studio**.
 2. Add your API key to the `local.properties` file:
@@ -103,7 +102,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ---
 
 ## Tech Stack Used
-
+[↑ Back to top](#top)
 ### Dependencies
 - **Kotlin**: Primary programming language used for building the app.
 - **Jetpack Compose**: Framework for declarative UI creation and building responsive layouts.
@@ -134,7 +133,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ---
 
 ## How It Works
-
+[↑ Back to top](#top)
 ### Features
 - **Current Location Weather**: Automatically fetches and displays weather data based on the user's real-time GPS location.
 - **Search City Weather**: Users can search for weather data of any city globally.
