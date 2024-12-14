@@ -95,12 +95,37 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 ---
 
+### Tech Stack used
 ## Dependencies
 
-- **Jetpack Compose**: For building declarative UI.
-- **Retrofit**: For API requests.
-- **Dagger Hilt**: For dependency injection.
-- **Google Play Services**: For location services.
+| **Tech Tools**                  | **Usage/Purpose**                                                                                     |
+|---------------------------------|-------------------------------------------------------------------------------------------------------|
+| [**Kotlin**](https://kotlinlang.org/)                      | Primary programming language used for building the app                                               |
+| [**Jetpack Compose**](https://developer.android.com/jetpack/compose)             | Framework for declarative UI creation and building responsive layouts                                |
+| [**Compose Navigation**](https://developer.android.com/jetpack/compose/navigation)          | Library for navigating between screens within the Compose framework                                  |
+| [**Coil**](https://coil-kt.github.io/coil/)                        | Image loading library optimized for Android                                                         |
+| [**Coroutines**](https://developer.android.com/kotlin/coroutines)                  | Enable asynchronous programming for tasks like API calls, database access, and background processing |
+
+| [**Hilt (Dependency Injection)**](https://dagger.dev/hilt/) | Framework for managing dependencies and achieving modularization                                    |
+| [**Retrofit**](https://square.github.io/retrofit/)                    | HTTP client library used for making API calls to fetch weather and alert data                       |
+| [**OkHTTP**](https://square.github.io/okhttp/)                      | Networking library required by Retrofit for HTTP requests                                           |
+| [**Room DB**](https://developer.android.com/training/data-storage/room)                     | Local database solution to store weather data, user preferences, and cached results                 |
+| [**Kotlinx Serialization**](https://github.com/Kotlin/kotlinx.serialization)       | Serialization library used for converting Kotlin objects to/from JSON                               |
+| [**AndroidX**](https://developer.android.com/jetpack/androidx)                    | A collection of modern libraries for Android development (ViewModel, LiveData, etc.)               |
+| [**ViewModel**](https://developer.android.com/topic/libraries/architecture/viewmodel)                   | Architecture component for managing UI-related data in a lifecycle-aware manner                     |
+| [**Gson**](https://github.com/google/gson)                        | JSON parsing library used for handling API responses (alternative to kotlinx.serialization)         |
+| [**OpenWeatherMap**](https://openweathermap.org/)                  | API used to fetch real-time weather and forecast data                                      |
+| [**Lottie Animation**](https://airbnb.io/lottie/#/) | Add vector animations to the app                                                                   |
+| [**Google Play Services Location**](https://developer.android.com/training/location) | Provides precise user location to deliver localized weather data                                    |
+| [**Accompanist Permissions**](https://google.github.io/accompanist/permissions/) | Simplifies permissions handling in Jetpack Compose                                                  |
+
+## Plugins
+| **Plugins**                                             | **Usage/Purpose**                                                                                     |
+|---------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| [**Android Application Plugin**](https://developer.android.com/studio/build) | Core plugin for building Android applications                                                        |
+| [**Kotlin Android Plugin**](https://kotlinlang.org/docs/android.html)        | Enables using Kotlin as the programming language for Android apps                                    |
+| [**Kotlin KAPT**](https://kotlinlang.org/docs/kapt.html)                    | Kotlin Annotation Processing Tool for code generation (used by Hilt and Room)                        |
+| [**Hilt Android Plugin**](https://dagger.dev/hilt/)                         | Simplifies dependency injection setup in Android projects                                             |
 
 ---
 
