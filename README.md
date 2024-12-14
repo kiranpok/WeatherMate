@@ -84,9 +84,9 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 ### Steps to Run the App
 1. Open the project in **Android Studio**.
-2. Add your API key to the `local.properties` file:
+2. Add your API key to the `utils/Constants.kt` file:
     ```properties
-    WEATHER_API_KEY=your_api_key_here
+   const val API_KEY = "Add your api key here"
     ```
 3. Build the project by selecting **Build > Make Project** in Android Studio.
 4. Run the app on an emulator or connected device.
@@ -202,7 +202,9 @@ Alternatively, you can download the project directly from the [GitHub repository
   
 [↑ Back to top](#top)
 
+## Known Bugs
 
+- The current location fetch works only with a physical device, not with the Android Studio emulator.
 
 ## License
 
