@@ -56,6 +56,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 |--------------------------|------------------------|-------------------------|
 | ![Favorites City Screen](assets/screenshots/favorites_city_screen.png) | ![Feedback Screen](assets/screenshots/feedback_screen.png) | ![Setting Screen](assets/screenshots/setting_screen.png) |
 
+
 [↑ Back to top](#top)
 
 
@@ -76,7 +77,11 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
    # Weather App
 
 ## Getting Started
+
+
 [↑ Back to top](#top)
+
+
 ### Steps to Run the App
 1. Open the project in **Android Studio**.
 2. Add your API key to the `local.properties` file:
@@ -110,7 +115,11 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 
 ## Tech Stack Used
+
+
 [↑ Back to top](#top)
+
+
 ### Dependencies
 - **Kotlin**: Primary programming language used for building the app.
 - **Jetpack Compose**: Framework for declarative UI creation and building responsive layouts.
@@ -141,7 +150,11 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 
 ## How It Works
+
+
 [↑ Back to top](#top)
+
+
 ### Features
 - **Current Location Weather**: Automatically fetches and displays weather data based on the user's real-time GPS location.
 - **Search City Weather**: Users can search for weather data of any city globally.
@@ -181,7 +194,7 @@ You can get the project in one of two ways:
 
 ## Download the ZIP
 
-Alternatively, you can download the project directly from the [GitHub repository](https://github.com/A-Yerkeshev/android-project) and extract it to your local machine.
+Alternatively, you can download the project directly from the [GitHub repository](https://github.com/kiranpok/WeatherMate.git). and extract it to your local machine.
 
 ## How to Contribute
 
@@ -207,8 +220,13 @@ Push your branch and create a pull request in the original repository. Provide a
 
 - Follow the project’s coding style and best practices.
 - Ensure that your code is well-documented with necessary comments.
+  
+  
+[↑ Back to top](#top)
+
+
 
 ## License
-[↑ Back to top](#top)
+
 By contributing, you agree that your contributions will be licensed under the **MIT License**. See the `LICENSE` file for details.
 
