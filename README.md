@@ -195,4 +195,4 @@ Alternatively, you can download the project directly from the [GitHub repository
 
 ## License
 
-This project is licensed under the ##MIT License.## By contributing, you agree that your contributions will be licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the **MIT License.** By contributing, you agree that your contributions will be licensed under the MIT License. See the LICENSE file for details.
