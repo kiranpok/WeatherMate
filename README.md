@@ -44,7 +44,8 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 - **User-Friendly UI**: Designed using Jetpack Compose with Material 3 styling.  
 - **Accessibility**: High-contrast design and clear labels for inclusivity.  
 
-
+## Demo 
+![Demo Video](https://www.youtube-nocookie.com/embed/your_video_id)
 
 ## Screenshots  
 
