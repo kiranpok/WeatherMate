@@ -66,7 +66,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 ### Core Components
 - **`MainActivity.kt`**: Entry point for the app. Handles navigation using Jetpack Navigation.
-- **`WeatherScreen.kt`**: Displays current weather data and navigation options.
+- **`HomeScreen.kt`**: Displays current weather data and navigation options.
 - **`SevenDayForecast.kt`**: Lists the 7-day weather forecast using a lazy column.
 - **`WeatherViewModel.kt`**: ViewModel for managing weather data and state.
 - **`WeatherRepository.kt`**: Repository for handling API calls.
