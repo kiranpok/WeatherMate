@@ -136,12 +136,6 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 
 
-## Future Improvements
-
-- Expand the activity recommendation engine with AI-driven insights.
-- Incorporate more detailed weather parameters, such as air quality and UV index.
-- Launch on multiple platforms, including iOS.
-- Add support for multiple languages.
 # Contributing
 
 We welcome contributions! Follow the steps below to set up your development environment and contribute to the project.
