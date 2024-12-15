@@ -58,9 +58,9 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 ## Video Demo
 Click the image below to watch the video demo.
+[![Watch the Video](https://img.youtube.com/vi/IJ9hqR3tl48/0.jpg)](https://www.youtube.com/shorts/IJ9hqR3tl48)
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 [↑ Back to top](#top)
 
