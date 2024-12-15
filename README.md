@@ -97,33 +97,39 @@ Click the image below to watch the video demo.
 [↑ Back to top](#top)
 
 
+
 ### Dependencies
-- **Kotlin**: Primary programming language used for building the app.
-- **Jetpack Compose**: Framework for declarative UI creation and building responsive layouts.
-- **Compose Navigation**: Library for navigating between screens within the Compose framework.
-- **Coil**: Image loading library optimized for Android.
-- **Coroutines**: Enables asynchronous programming for tasks like API calls, database access, and background processing.
-- **Hilt (Dependency Injection)**: Framework for managing dependencies and achieving modularization.
-- **Retrofit**: HTTP client library used for making API calls to fetch weather and alert data.
-- **OkHTTP**: Networking library required by Retrofit for HTTP requests.
-- **Room DB**: Local database solution to store weather data, user preferences, and cached results.
-- **Kotlinx Serialization**: Serialization library used for converting Kotlin objects to/from JSON.
-- **AndroidX**: A collection of modern libraries for Android development (ViewModel, LiveData, etc.).
-- **ViewModel**: Architecture component for managing UI-related data in a lifecycle-aware manner.
-- **android-maps-compose**: Compose library for integrating Google Maps to display user locations and weather.
-- **Gson**: JSON parsing library used for handling API responses (alternative to kotlinx.serialization).
-- **OpenWeatherMap**: API used to fetch real-time weather and forecast data.
-- **Accompanist System UI Controller**: Manages status bar and navigation bar appearance.
-- **Lottie Animation**: Adds vector animations to the app.
-- **Google Play Services Location**: Provides precise user location to deliver localized weather data.
-- **Accompanist Permissions**: Simplifies permissions handling in Jetpack Compose.
+
+| Dependency                  | Description                                                      |
+|-----------------------------|------------------------------------------------------------------|
+| **Kotlin**                  | Primary programming language used for building the app.          |
+| **Jetpack Compose**         | Framework for declarative UI creation and building responsive layouts. |
+| **Compose Navigation**      | Library for navigating between screens within the Compose framework. |
+| **Coil**                    | Image loading library optimized for Android.                     |
+| **Coroutines**              | Enables asynchronous programming for tasks like API calls, database access, and background processing. |
+| **Hilt (Dependency Injection)** | Framework for managing dependencies and achieving modularization.|
+| **Retrofit**                | HTTP client library used for making API calls to fetch weather and alert data. |
+| **OkHTTP**                  | Networking library required by Retrofit for HTTP requests.       |
+| **Room DB**                 | Local database solution to store weather data, user preferences, and cached results. |
+| **Kotlinx Serialization**   | Serialization library used for converting Kotlin objects to/from JSON. |
+| **AndroidX**                | A collection of modern libraries for Android development (ViewModel, LiveData, etc.). |
+| **ViewModel**               | Architecture component for managing UI-related data in a lifecycle-aware manner. |
+| **android-maps-compose**    | Compose library for integrating Google Maps to display user locations and weather. |
+| **Gson**                    | JSON parsing library used for handling API responses (alternative to kotlinx.serialization). |
+| **OpenWeatherMap**          | API used to fetch real-time weather and forecast data.           |
+| **Accompanist System UI Controller** | Manages status bar and navigation bar appearance.           |
+| **Lottie Animation**        | Adds vector animations to the app.                              |
+| **Google Play Services Location** | Provides precise user location to deliver localized weather data. |
+| **Accompanist Permissions** | Simplifies permissions handling in Jetpack Compose.              |
 
 ### Plugins
-- **Android Application Plugin**: Core plugin for building Android applications.
-- **Kotlin Android Plugin**: Enables using Kotlin as the programming language for Android apps.
-- **Kotlin Kapt**: Kotlin Annotation Processing Tool for code generation (used by Hilt and Room).
-- **Hilt Android Plugin**: Simplifies dependency injection setup in Android projects.
 
+| Plugin                      | Description                                                      |
+|-----------------------------|------------------------------------------------------------------|
+| **Android Application Plugin** | Core plugin for building Android applications.                   |
+| **Kotlin Android Plugin**   | Enables using Kotlin as the programming language for Android apps. |
+| **Kotlin Kapt**             | Kotlin Annotation Processing Tool for code generation (used by Hilt and Room). |
+| **Hilt Android Plugin**     | Simplifies dependency injection setup in Android projects.       |
 
 
 ## How It Works
