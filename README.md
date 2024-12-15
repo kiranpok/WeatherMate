@@ -61,36 +61,6 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 
 
-## How to Build From Source  
-
-### Prerequisites  
-- **Install Android Studio**: Download from [Android Studio](https://developer.android.com/studio).  
-- **Kotlin**: Ensure Kotlin is configured in your Android Studio.  
-- **OpenWeatherMap API Key**: Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/).  
-
-### Setup Instructions  
-1. Clone the repository:  
-   ```bash
-   git clone https://github.com/kiranpok/WeatherMate.git
-
-   cd WeatherMate 
-
-## Getting Started
-
-
-[↑ Back to top](#top)
-
-
-### Steps to Run the App
-1. Open the project in **Android Studio**.
-2. Add your API key to the `utils/Constants.kt` file:
-    ```properties
-   const val API_KEY = "Add your api key here"
-    ```
-4. Build the project by selecting **Build > Make Project** in Android Studio.
-5. Run the app on an emulator or connected device.
-
-
 
 
 ![Project Structure](assets/screenshots/project_structure.png)
@@ -179,10 +149,12 @@ We welcome contributions! Follow the steps below to set up your development envi
 
 ## Prerequisites
 
-1. **Install Android Studio**:  
+1. - **Install Android Studio**:  
    Download Android Studio from [here](https://developer.android.com/studio) and follow the installation instructions for your platform.
+   - **OpenWeatherMap API Key**: Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/).  
 
-2. **Important**:  
+
+3. - **Important**:  
    The app targets **Android API level 33**. Ensure your device or emulator meets the required version to avoid issues.
 
 ## Getting the Code
@@ -198,6 +170,20 @@ You can get the project in one of two ways:
 
 Alternatively, you can download the project directly from the [GitHub repository](https://github.com/kiranpok/WeatherMate.git). and extract it to your local machine.
 
+
+
+
+[↑ Back to top](#top)
+
+
+### Steps to Run the App
+1. Open the project in **Android Studio**.
+2. Add your API key to the `utils/Constants.kt` file:
+    ```properties
+   const val API_KEY = "Add your api key here"
+    ```
+4. Build the project by selecting **Build > Make Project** in Android Studio.
+5. Run the app on an emulator or connected device.
 
 
   
