@@ -211,10 +211,6 @@ Alternatively, you can download the project directly from the [GitHub repository
 4. Run the app on an emulator or connected device.
 
 
-  
-  
-[↑ Back to top](#top)
-
 
 
 ## Known Bugs
