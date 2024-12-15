@@ -64,7 +64,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ## How to Build From Source  
 
 ### Prerequisites  
-- **Android Studio Arctic Fox or later**: Download from [Android Studio](https://developer.android.com/studio).  
+- **Install Android Studio**: Download from [Android Studio](https://developer.android.com/studio).  
 - **Kotlin**: Ensure Kotlin is configured in your Android Studio.  
 - **OpenWeatherMap API Key**: Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/).  
 
@@ -73,8 +73,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
    ```bash
    git clone https://github.com/kiranpok/WeatherMate.git
 
-
-   # Weather App
+   cd WeatherMate 
 
 ## Getting Started
 
@@ -88,11 +87,13 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
     ```properties
    const val API_KEY = "Add your api key here"
     ```
-3. Build the project by selecting **Build > Make Project** in Android Studio.
-4. Run the app on an emulator or connected device.
+4. Build the project by selecting **Build > Make Project** in Android Studio.
+5. Run the app on an emulator or connected device.
 
 
-## Project Structure
+
+
+![Project Structure](assets/screenshots/project_structure.png)
 
 ### Core Components
 - **`MainActivity.kt`**: Entry point for the app. Handles navigation using Jetpack Navigation.
@@ -105,7 +106,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 
 ### Network
 - **`WeatherApiService.kt`**: Retrofit service interface for the OpenWeatherMap API.
-- **`RetrofitClient.kt`**: Singleton for initializing the Retrofit instance.
+- **`WeatherApi.kt`**: Singleton for initializing the Retrofit instance.
 
 ### Model
 - **`Weather.kt`**: Data model representing weather data.
@@ -144,7 +145,7 @@ WeatherMate is a Kotlin-based Android application that provides real-time weathe
 ### Plugins
 - **Android Application Plugin**: Core plugin for building Android applications.
 - **Kotlin Android Plugin**: Enables using Kotlin as the programming language for Android apps.
-- **Kotlin KAPT**: Kotlin Annotation Processing Tool for code generation (used by Hilt and Room).
+- **Kotlin Kapt**: Kotlin Annotation Processing Tool for code generation (used by Hilt and Room).
 - **Hilt Android Plugin**: Simplifies dependency injection setup in Android projects.
 
 
@@ -192,6 +193,7 @@ You can get the project in one of two ways:
   ```bash
   git clone git@https://github.com/kiranpok/WeatherMate.git
 
+
 ## Download the ZIP
 
 Alternatively, you can download the project directly from the [GitHub repository](https://github.com/kiranpok/WeatherMate.git). and extract it to your local machine.
@@ -208,4 +210,4 @@ Alternatively, you can download the project directly from the [GitHub repository
 
 ## License
 
-This project is licensed under the MIT License. By contributing, you agree that your contributions will be licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the ##MIT License.## By contributing, you agree that your contributions will be licensed under the MIT License. See the LICENSE file for details.
