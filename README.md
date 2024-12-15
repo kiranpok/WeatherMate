@@ -64,7 +64,12 @@ Click the image below to watch the video demo.
 
 
 
+
+
 [↑ Back to top](#top)
+
+
+
 
 
 ## Project Structure
@@ -91,12 +96,17 @@ Click the image below to watch the video demo.
 
 
 
-## Tech Stack Used
+
+
+
 
 
 [↑ Back to top](#top)
 
 
+
+
+## Tech Stack Used
 
 ### Dependencies
 
@@ -132,11 +142,16 @@ Click the image below to watch the video demo.
 | **Hilt Android Plugin**     | Simplifies dependency injection setup in Android projects.       |
 
 
-## How It Works
+
+
 
 
 [↑ Back to top](#top)
 
+
+
+
+## How It Works
 
 ### Features
 - **Current Location Weather**: Automatically fetches and displays weather data based on the user's real-time GPS location.
@@ -155,12 +170,11 @@ We welcome contributions! Follow the steps below to set up your development envi
 
 ## Prerequisites
 
-1. - **Install Android Studio**:  
+1. **Install Android Studio**:  
    Download Android Studio from [here](https://developer.android.com/studio) and follow the installation instructions for your platform.
-   - **OpenWeatherMap API Key**: Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/).  
-
-
-3. - **Important**:  
+2. **OpenWeatherMap API Key**:  
+   Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/).
+3. **Important**:  
    The app targets **Android API level 35**. Ensure your device or emulator meets the required version to avoid issues.
 
 ## Getting the Code
@@ -169,7 +183,7 @@ You can get the project in one of two ways:
 
 - **Clone the repository**:
   ```bash
-  git clone git@https://github.com/kiranpok/WeatherMate.git
+  git clone https://github.com/kiranpok/WeatherMate.git
 
 
 ## Download the ZIP
@@ -179,26 +193,33 @@ Alternatively, you can download the project directly from the [GitHub repository
 
 
 
+
 [↑ Back to top](#top)
+
+
+
 
 
 ### Steps to Run the App
+
 1. Open the project in **Android Studio**.
 2. Add your API key to the `utils/Constants.kt` file:
-    ```properties
-   const val API_KEY = "Add your api key here"
+    ```kotlin
+   const val API_KEY = "Add your API key here"
     ```
-4. Build the project by selecting **Build > Make Project** in Android Studio.
-5. Run the app on an emulator or connected device.
+3. Build the project by selecting **Build > Make Project** in Android Studio.
+4. Run the app on an emulator or connected device.
 
 
   
   
 [↑ Back to top](#top)
 
+
+
 ## Known Bugs
 
-- The current location fetch works only with a physical device, not with the Android Studio emulator.
+- The current location fetch and feedback features work only with a physical device, not with the Android Studio emulator.
 
 ## License
 
